@@ -1,3 +1,7 @@
 <Solution>
-  <Project Path="FinancialApplication/FinancialApplication.csproj" />
+  <Project Path="FinancialApplication.Application/FinancialApplication.Application.csproj" Id="648373e0-86fa-4b44-b15c-6ec9ef64d8d8" />
+  <Project Path="FinancialApplication.Domain/FinancialApplication.Domain.csproj" Id="49c8a142-bb00-4094-b6c2-6f454e7e3b1c" />
+  <Project Path="FinancialApplication.Infrastructure/FinancialApplication.Infrastructure.csproj" Id="f5f1e16f-fc1e-4df0-b5ff-c8b311f4dd49" />
+  <Project Path="FinancialApplication.UnitTests/FinancialApplication.UnitTests.csproj" Id="ca106504-522c-46fc-990f-6ec09ceb5258" />
+  <Project Path="FinancialApplication/FinancialApplication.Api.csproj" />
 </Solution>
