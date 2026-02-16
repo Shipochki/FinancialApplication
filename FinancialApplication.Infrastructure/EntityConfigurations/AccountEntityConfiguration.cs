@@ -11,7 +11,7 @@
         {
             builder
                 .HasOne(a => a.Owner)
-                .WithMany()
+                .WithMany(u => u.Accounts)
                 .HasForeignKey(a => a.OwnerId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);

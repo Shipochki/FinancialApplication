@@ -18,7 +18,7 @@
 
             builder
                 .HasOne(t => t.Category)
-                .WithMany()
+                .WithMany(c => c.Transactions)
                 .HasForeignKey(t => t.CategoryId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);

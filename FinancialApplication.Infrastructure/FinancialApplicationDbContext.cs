@@ -9,6 +9,7 @@
         public FinancialApplicationDbContext(DbContextOptions<FinancialApplicationDbContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
 
         public DbSet<Account> Accounts { get; set; }

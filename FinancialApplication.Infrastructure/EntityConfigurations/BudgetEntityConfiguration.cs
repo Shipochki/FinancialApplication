@@ -11,14 +11,14 @@
         {
             builder
                 .HasOne(b => b.Category)
-                .WithMany()
+                .WithMany(c => c.Budgets)
                 .HasForeignKey(b => b.CategoryId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .HasOne(b => b.Account)
-                .WithMany()
+                .WithMany(a => a.Budgets)
                 .HasForeignKey(b => b.AccountId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
