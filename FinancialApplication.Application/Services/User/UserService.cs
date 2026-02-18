@@ -2,7 +2,6 @@
 {
     using FinancialApplication.Application.Common.Interfaces.Repository;
     using FinancialApplication.Domain.Entities;
-    using System.ComponentModel.DataAnnotations;
 
     public class UserService : BaseService, IUserService
     {
@@ -12,23 +11,26 @@
 
         public async Task CreateUserAsync(UserDto userDto)
         {
-            User? existingUser = Repository.GetByIdAsync<User>(userDto.Id).Result;
+            User? existingUser = Repository
+                .All<User>(u => u.ExternalIdentityId == userDto.ExternalIdentityId)
+                .FirstOrDefault();
+
             if (existingUser != null)
             {
-                throw new InvalidOperationException($"User with id {userDto.Id} already exists.");
+                throw new InvalidOperationException($"User with external identity id {userDto.ExternalIdentityId} already exists.");
             }
-
-            Validator.ValidateObject(userDto, new ValidationContext(userDto), true);
 
             var user = new User
             {
                 ExternalIdentityId = userDto.ExternalIdentityId,
                 FirstName = userDto.FirstName,
                 LastName = userDto.LastName,
-                Email = userDto.Email
+                Email = userDto.Email,
+                CreatedOn = DateTime.UtcNow,
             };
 
             await Repository.AddAsync(user);
+            await Repository.SaveChangesAsync();
         }
 
         public Task DeleteUserAsync(string userId)

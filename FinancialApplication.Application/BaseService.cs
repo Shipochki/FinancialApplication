@@ -4,7 +4,7 @@
 
     public abstract class BaseService
     {
-        public readonly IRepository Repository;
+        protected readonly IRepository Repository;
 
         public BaseService(IRepository repository)
         {
