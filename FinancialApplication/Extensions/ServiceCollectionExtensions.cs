@@ -10,6 +10,12 @@
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<FinancialApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
+
+            // Add services to the container.
+
+            builder.Services.AddControllers();
+            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+            builder.Services.AddOpenApi();
         }
     }
 }
