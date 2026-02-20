@@ -21,4 +21,8 @@
     <ProjectReference Include="..\FinancialApplication.Infrastructure\FinancialApplication.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\Transaction\" />
+  </ItemGroup>
+
 </Project>

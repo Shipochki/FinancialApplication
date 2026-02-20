@@ -2,6 +2,7 @@
 {
     using FinancialApplication.Application.Common.Interfaces.Repository;
     using FinancialApplication.Application.Services.Account;
+    using FinancialApplication.Application.Services.Transaction;
     using FinancialApplication.Application.Services.User;
     using FinancialApplication.Infrastructure;
     using FinancialApplication.Infrastructure.Repository;
@@ -28,6 +29,7 @@
         { 
             // Register your scoped services here
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRepository, Repository>();
             return services;

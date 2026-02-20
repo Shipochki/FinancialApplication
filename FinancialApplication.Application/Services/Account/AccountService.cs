@@ -29,7 +29,6 @@
                 CreatedOn = DateTime.UtcNow
             };
 
-
             await Repository.AddAsync(account);
             await Repository.SaveChangesAsync();
         }

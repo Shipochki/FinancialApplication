@@ -1,5 +1,6 @@
 ﻿using FinancialApplication.Api.DTOs.User;
 using FinancialApplication.Application.Services.Account;
+using FinancialApplication.Application.Services.Transaction;
 using FinancialApplication.Application.Services.User;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -11,8 +12,9 @@ namespace FinancialApplication.Api.Controllers
     public class UserController : BaseController
     {
         public UserController(IAccountService accountService
-            , IUserService userService)
-            : base(accountService, userService)
+            , IUserService userService
+            , ITransactionService transactionService)
+            : base(accountService, userService, transactionService)
         {
         }
 
