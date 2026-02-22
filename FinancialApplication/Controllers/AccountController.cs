@@ -33,7 +33,7 @@
                 OwnerId = request.OwnerId
             });
 
-            return Ok();
+            return Created();
         }
     }
 }

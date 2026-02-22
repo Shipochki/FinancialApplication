@@ -10,7 +10,7 @@
         public int Currency { get; set; }
         public required string OwnerId { get; set; }
 
-        public AccountDto AccountToAccountDto(Account account)
+        public static AccountDto AccountToAccountDto(Account account)
         {
             return new AccountDto
             {

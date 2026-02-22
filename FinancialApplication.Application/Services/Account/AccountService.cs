@@ -6,7 +6,7 @@
 
     public class AccountService : BaseService, IAccountService
     {
-        public AccountService(IRepository repository): base(repository)
+        public AccountService(IRepository repository) : base(repository)
         {
         }
 
@@ -17,6 +17,8 @@
             {
                 throw new Exception("Owner not found");
             }
+
+            //Get User and check if it is the owner of the account, if not throw exception
 
             Account account = new Account
             {
@@ -35,22 +37,73 @@
 
         public Task DeleteAccountAsync(string accountId)
         {
-            throw new NotImplementedException();
+            //Get User and check if it is the owner of the account, if not throw exception
+
+            Account? account = Repository.GetByIdAsync<Account>(Guid.Parse(accountId)).Result;
+
+            if (account == null)
+            {
+                throw new Exception("Account not found");
+            }
+
+            account.IsDeleted = true;
+            Repository.SaveChangesAsync();
+            return Task.CompletedTask;
         }
 
         public Task<AccountDto> GetAccountByIdAsync(string accountId)
         {
-            throw new NotImplementedException();
+            //Get User and check if it is the owner of the account, if not throw exception
+
+            Account? account = Repository.GetByIdAsync<Account>(Guid.Parse(accountId)).Result;
+
+            if (account == null)
+            {
+                throw new Exception("Account not found");
+            }
+
+            AccountDto accountDto = new AccountDto
+            {
+                Id = account.Id.ToString(),
+                Name = account.Name,
+                Balance = account.Balance,
+                Description = account.Description,
+                Currency = (int)account.Currency,
+                OwnerId = account.OwnerId.ToString()
+            };
+
+            return Task.FromResult(accountDto);
         }
 
-        public Task<IEnumerable<AccountDto>> GetAccountsByOwnerIdAsync(string ownerId)
+        public IEnumerable<AccountDto> GetAccountsByOwnerIdAsync(string ownerId)
         {
-            throw new NotImplementedException();
+            //Get User and check if it is the owner of the accounts, if not throw exception
+
+            return Repository
+                .All<Account>()
+                .Where(a => a.OwnerId == Guid.Parse(ownerId) && !a.IsDeleted)
+                .Select(AccountDto.AccountToAccountDto)
+                .ToList();
         }
 
-        public Task UpdateAccountAsync(AccountDto request)
+        public async Task UpdateAccountAsync(AccountDto request)
         {
-            throw new NotImplementedException();
+            Account? account = Repository.GetByIdAsync<Account>(Guid.Parse(request.Id)).Result;
+
+            if (account == null)
+            {
+                throw new Exception("Account not found");
+            }
+
+            //Get User and check if it is the owner of the account, if not throw exception
+
+            account.Name = request.Name;
+            account.Balance = request.Balance;
+            account.Description = request.Description;
+            account.Currency = (Currency)request.Currency;
+            account.ModifiedOn = DateTime.UtcNow;
+
+            await Repository.SaveChangesAsync();
         }
     }
 }

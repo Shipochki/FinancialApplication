@@ -24,7 +24,6 @@ namespace FinancialApplication.Api.Controllers
         {
             Validator.ValidateObject(request, new ValidationContext(request), true);
 
-
             await UserService.CreateUserAsync(new UserDto
             {
                 ExternalIdentityId = request.ExternalIdentityId,
@@ -32,7 +31,8 @@ namespace FinancialApplication.Api.Controllers
                 LastName = request.LastName,
                 Email = request.Email
             });
-            return Ok();
+
+            return Created();
         }
     }
 }
