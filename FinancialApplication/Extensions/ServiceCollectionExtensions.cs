@@ -6,7 +6,9 @@
     using FinancialApplication.Application.Services.User;
     using FinancialApplication.Infrastructure;
     using FinancialApplication.Infrastructure.Repository;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Identity.Web;
 
     public static class ServiceCollectionExtensions
     {
@@ -16,6 +18,9 @@
             builder.Services.AddDbContext<FinancialApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -23,6 +28,17 @@
             builder.Services.AddOpenApi();
 
             builder.Services.ConfigureScopedServices();
+            builder.Services.ConfigureCorses();
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireApiScope", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    // "scp" is the claim type for scopes in Entra ID tokens
+                    policy.RequireClaim("scp", "access_as_user");
+                });
+            });
         }
 
         private static IServiceCollection ConfigureScopedServices(this IServiceCollection services)
@@ -33,6 +49,21 @@
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRepository, Repository>();
             return services;
+        }
+
+        private static IServiceCollection ConfigureCorses(this IServiceCollection service)
+        {
+            service.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin",
+                    builder => builder
+                    .WithOrigins("https://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
+            return service;
         }
     }
 }
