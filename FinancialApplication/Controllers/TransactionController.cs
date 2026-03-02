@@ -1,6 +1,5 @@
 ﻿namespace FinancialApplication.Api.Controllers
 {
-    using Azure.Core;
     using FinancialApplication.Api.DTOs.Transaction;
     using FinancialApplication.Application.Services.Account;
     using FinancialApplication.Application.Services.Transaction;

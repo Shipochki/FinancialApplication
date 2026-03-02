@@ -1,0 +1,43 @@
+<div class="home-container">
+
+    @if(isLoading){
+    <div class="loading">Loading your financial overview...</div>
+    }
+
+    @if(!isLoading && accounts.length === 0){
+    <div class="empty-state">
+        <h2>No Accounts Found</h2>
+    <p>Start tracking your money flow by creating your first account.</p>
+    <button class="main-btn" routerLink="/create">Create Account</button>
+    </div>
+    }
+
+    @if(!isLoading && accounts.length > 0){
+    <div  class="carousel-container">
+    
+    <button class="nav-btn" (click)="prevAccount()" [disabled]="currentIndex === 0">❮</button>
+
+    <div class="account-card">
+      <h2>{{ accounts[currentIndex].name }}</h2>
+      
+      <div class="balance-display">
+        {{ accounts[currentIndex].balance | currency: getCurrencyCode(accounts[currentIndex].currency) }}
+      </div>
+
+      <p class="description">
+        {{ accounts[currentIndex].description || 'No description provided.' }}
+      </p>
+    </div>
+
+    <button class="nav-btn" (click)="nextAccount()" [disabled]="currentIndex === accounts.length - 1">❯</button>
+
+  </div>
+    }
+
+    @if(accounts.length > 1){
+    <div class="pagination">
+        {{ currentIndex + 1 }} / {{ accounts.length }}
+    </div>
+    }
+
+</div>

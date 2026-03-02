@@ -28,7 +28,7 @@ export function MSALInstanceFactory(): PublicClientApplication {
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
   // Attach the token only to API requests matching this URL
-  protectedResourceMap.set('https://localhost:7287/api/', ['api://ae84d976-7f16-4602-ac6c-03763dffdc41/access_as_user']);
+  protectedResourceMap.set('https://localhost:5111/api/', ['api://ae84d976-7f16-4602-ac6c-03763dffdc41/access_as_user']);
 
   return {
     interactionType: InteractionType.Redirect,

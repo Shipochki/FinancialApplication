@@ -4,7 +4,7 @@
     {
         Task CreateAccountAsync(AccountDto request);
         Task<AccountDto> GetAccountByIdAsync(string accountId);
-        IEnumerable<AccountDto> GetAccountsByOwnerIdAsync(string ownerId);
+        IEnumerable<AccountDto> GetAccountsByOwnerId(string ownerId);
         Task UpdateAccountAsync(AccountDto request);
         Task DeleteAccountAsync(string accountId);
     }

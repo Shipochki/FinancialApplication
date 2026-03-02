@@ -16,7 +16,7 @@ import { filter, takeUntil } from 'rxjs/operators';
     <mat-toolbar color="primary" class="app-header">
       <div class="logo-container">
         <mat-icon class="logo-icon">account_balance_wallet</mat-icon>
-        <span class="app-title">My Application</span>
+        <span class="app-title">Financial Application</span>
       </div>
 
       <span class="spacer"></span>
@@ -33,7 +33,7 @@ import { filter, takeUntil } from 'rxjs/operators';
         </button>
       </ng-container>
         } @else {
-      <ng-container *ngIf="isLoggedIn">
+      <ng-container>
         <button mat-button (click)="logout()">
           <mat-icon>logout</mat-icon>
           Sign Out

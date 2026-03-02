@@ -75,7 +75,7 @@
             return Task.FromResult(accountDto);
         }
 
-        public IEnumerable<AccountDto> GetAccountsByOwnerIdAsync(string ownerId)
+        public IEnumerable<AccountDto> GetAccountsByOwnerId(string ownerId)
         {
             //Get User and check if it is the owner of the accounts, if not throw exception
 
