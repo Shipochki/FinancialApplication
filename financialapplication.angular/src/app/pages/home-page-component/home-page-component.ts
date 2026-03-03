@@ -1,62 +1,69 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { AccountService } from '../../services/account.service';
 import { CommonModule } from '@angular/common';
 import { GetAccountDto } from '../../models/account.model';
 import { MsalService } from '@azure/msal-angular';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home-page-component',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    RouterModule,
+  ],
   templateUrl: './home-page-component.html',
   styleUrls: ['./home-page-component.css'],
 })
 export class HomePageComponent implements OnInit {
-  accounts: GetAccountDto[] = [];
-  currentIndex: number = 0;
-  isLoading: boolean = true;
+  accounts = signal<GetAccountDto[]>([]);
+  currentIndex = signal(0);
+  isLoading = signal(true);
 
-  constructor(
-    private accountService: AccountService,
-    @Inject(MsalService) private authService: MsalService,
-  ) { }
+  private accountService = inject(AccountService);
+  private authService = inject(MsalService);
 
   ngOnInit() {
 
     const currentAccounts = this.authService.instance.getAllAccounts();
-    console.log("Current Accounts:", currentAccounts);
     if (currentAccounts.length > 0) {
       this.accountService.getAccounts().subscribe({
         next: (data) => {
-          this.accounts = data;
-          this.isLoading = false;
+          this.accounts.set(data);
+          this.isLoading.set(false);
         },
         error: () => {
-          this.isLoading = false;
+          this.isLoading.set(false);
         }
       });
+    } else {
+      this.isLoading.set(false);
     }
 
   }
 
   nextAccount() {
-    if (this.currentIndex < this.accounts.length - 1) {
-      this.currentIndex++;
-    }
+    this.currentIndex.update(i => Math.min(i + 1, this.accounts().length - 1));
   }
 
   prevAccount() {
-    if (this.currentIndex > 0) {
-      this.currentIndex--;
-    }
+    this.currentIndex.update(i => Math.max(i - 1, 0));
   }
 
   getCurrencyCode(code: number): string {
-    const currencyMap: { [key: number]: string } = {
+    const currencyMap: Record<number, string> = {
       0: 'USD',
       1: 'EUR',
-      2: 'BGN'
+      2: 'BGN',
     };
-    return currencyMap[code] || 'USD';
+    return currencyMap[code] ?? 'USD';
   }
 }

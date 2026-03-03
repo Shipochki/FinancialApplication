@@ -1,13 +1,18 @@
-﻿namespace FinancialApplication.Application.Services.Account
+﻿namespace FinancialApplication.Application.Services.AccountService
 {
     using FinancialApplication.Application.Common.Interfaces.Repository;
+    using FinancialApplication.Application.Services.UserService;
     using FinancialApplication.Domain.Entities;
     using FinancialApplication.Domain.Enums;
 
     public class AccountService : BaseService, IAccountService
     {
-        public AccountService(IRepository repository) : base(repository)
+        private readonly IUserService userService;
+
+        public AccountService(IRepository repository,
+            IUserService userService) : base(repository)
         {
+            this.userService = userService;
         }
 
         public async Task CreateAccountAsync(AccountDto request)
@@ -75,13 +80,13 @@
             return Task.FromResult(accountDto);
         }
 
-        public IEnumerable<AccountDto> GetAccountsByOwnerId(string ownerId)
+        public IEnumerable<AccountDto> GetAccountsByOwnerId(string externalIdentityId)
         {
-            //Get User and check if it is the owner of the accounts, if not throw exception
+            User? user = userService.GetUserByExternalIdAsync(externalIdentityId);
 
             return Repository
                 .All<Account>()
-                .Where(a => a.OwnerId == Guid.Parse(ownerId) && !a.IsDeleted)
+                .Where(a => a.OwnerId == user.Id && !a.IsDeleted)
                 .Select(AccountDto.AccountToAccountDto)
                 .ToList();
         }

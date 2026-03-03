@@ -1,0 +1,31 @@
+<mat-toolbar color="primary" class="app-header">
+  <!-- Logo Section -->
+  <div class="logo-container">
+    <div class="logo-wrapper">
+      <mat-icon class="logo-icon">account_balance_wallet</mat-icon>
+    </div>
+    <span class="app-title">Financial Application</span>
+  </div>
+
+  <!-- Spacer -->
+  <span class="spacer"></span>
+
+  <!-- Auth Actions -->
+  <div class="auth-actions">
+    @if(!isLoggedIn){
+    <button mat-button class="signin-btn" (click)="login()">
+      <mat-icon>login</mat-icon>
+      <span>Sign In</span>
+    </button>
+    <button mat-flat-button color="accent" class="register-btn" (click)="register()">
+      <mat-icon>person_add</mat-icon>
+      <span>Register</span>
+    </button>
+      } @else {
+    <button mat-button class="logout-btn" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Sign Out</span>
+    </button>
+    }
+  </div>
+</mat-toolbar>

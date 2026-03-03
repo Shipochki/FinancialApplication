@@ -5,7 +5,6 @@ import { NgModule } from '@angular/core';
 export const routes: Routes = [
     { path: '', component: HomePageComponent }, 
     { path: 'home', component: HomePageComponent },
-    // { path: 'create-account', component: CreateAccountComponent },
     { path: '**', redirectTo: '' }
 ];
 

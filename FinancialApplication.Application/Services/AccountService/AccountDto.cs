@@ -1,4 +1,4 @@
-﻿namespace FinancialApplication.Application.Services.Account
+﻿namespace FinancialApplication.Application.Services.AccountService
 {
     using FinancialApplication.Domain.Entities;
 

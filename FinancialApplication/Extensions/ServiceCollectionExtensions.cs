@@ -1,9 +1,9 @@
 ﻿namespace FinancialApplication.Api.Extensions
 {
     using FinancialApplication.Application.Common.Interfaces.Repository;
-    using FinancialApplication.Application.Services.Account;
-    using FinancialApplication.Application.Services.Transaction;
-    using FinancialApplication.Application.Services.User;
+    using FinancialApplication.Application.Services.AccountService;
+    using FinancialApplication.Application.Services.TransactionService;
+    using FinancialApplication.Application.Services.UserService;
     using FinancialApplication.Infrastructure;
     using FinancialApplication.Infrastructure.Repository;
     using Microsoft.AspNetCore.Authentication.JwtBearer;

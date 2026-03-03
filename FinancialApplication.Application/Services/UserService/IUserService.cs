@@ -1,8 +1,10 @@
-﻿namespace FinancialApplication.Application.Services.User
+﻿namespace FinancialApplication.Application.Services.UserService
 {
+    using FinancialApplication.Domain.Entities;
+
     public interface IUserService
     {
-        public Task<UserDto> GetUserByIdAsync(string externalIdentityId);
+        public User GetUserByExternalIdAsync(string externalIdentityId);
 
         public Task CreateUserAsync(UserDto userDto);
 

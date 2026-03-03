@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS, withFetch, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
@@ -83,6 +83,6 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(() => {
       const msalService = inject(MsalService);
       return msalService.instance.initialize();
-    })
+    }),
   ]
 };

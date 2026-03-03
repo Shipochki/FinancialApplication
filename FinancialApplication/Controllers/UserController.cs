@@ -1,7 +1,7 @@
 ﻿using FinancialApplication.Api.DTOs.User;
-using FinancialApplication.Application.Services.Account;
-using FinancialApplication.Application.Services.Transaction;
-using FinancialApplication.Application.Services.User;
+using FinancialApplication.Application.Services.AccountService;
+using FinancialApplication.Application.Services.TransactionService;
+using FinancialApplication.Application.Services.UserService;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 

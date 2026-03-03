@@ -1,43 +1,82 @@
 <div class="home-container">
+  <!-- Loading State -->
+  @if(isLoading()){
+  <div class="loading-state">
+    <mat-spinner [diameter]="50"></mat-spinner>
+    <p>Loading your financial overview...</p>
+  </div>
+  }
 
-    @if(isLoading){
-    <div class="loading">Loading your financial overview...</div>
-    }
-
-    @if(!isLoading && accounts.length === 0){
-    <div class="empty-state">
-        <h2>No Accounts Found</h2>
+  <!-- Empty State -->
+  @if(!isLoading() && accounts().length === 0){
+  <div class="empty-state">
+    <mat-icon class="empty-icon">account_balance</mat-icon>
+    <h2>No Accounts Found</h2>
     <p>Start tracking your money flow by creating your first account.</p>
-    <button class="main-btn" routerLink="/create">Create Account</button>
+    <button mat-flat-button color="primary" class="create-account-btn" routerLink="/create">
+      <mat-icon>add</mat-icon>
+      Create Account
+    </button>
+  </div>
+  }
+
+  <!-- Accounts Carousel -->
+  @if(!isLoading() && accounts().length > 0){
+  <div class="carousel-section">
+    <div class="carousel-header">
+      <h1>Your Accounts</h1>
+      <p class="subtitle">Manage and monitor your financial accounts</p>
     </div>
-    }
 
-    @if(!isLoading && accounts.length > 0){
-    <div  class="carousel-container">
-    
-    <button class="nav-btn" (click)="prevAccount()" [disabled]="currentIndex === 0">❮</button>
+    <div class="carousel-container">
+      <button mat-icon-button class="nav-btn nav-prev" (click)="prevAccount()" [disabled]="currentIndex() === 0" aria-label="Previous account">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
 
-    <div class="account-card">
-      <h2>{{ accounts[currentIndex].name }}</h2>
-      
-      <div class="balance-display">
-        {{ accounts[currentIndex].balance | currency: getCurrencyCode(accounts[currentIndex].currency) }}
+      <div class="account-card-wrapper">
+        <mat-card class="account-card">
+          <mat-card-header>
+            <div class="card-header-content">
+              <h2 class="account-name">{{ accounts()[currentIndex()].name }}</h2>
+              <span class="account-index">{{ currentIndex() + 1 }} of {{ accounts().length }}</span>
+            </div>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="balance-section">
+              <p class="balance-label">Account Balance</p>
+              <div class="balance-display">
+                {{ accounts()[currentIndex()].balance | currency: getCurrencyCode(accounts()[currentIndex()].currency) }}
+              </div>
+            </div>
+
+            <div class="description-section">
+              <p class="description">
+                {{ accounts()[currentIndex()].description || 'No description provided.' }}
+              </p>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </div>
 
-      <p class="description">
-        {{ accounts[currentIndex].description || 'No description provided.' }}
-      </p>
+      <button mat-icon-button class="nav-btn nav-next" (click)="nextAccount()" [disabled]="currentIndex() === accounts().length - 1" aria-label="Next account">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
     </div>
 
-    <button class="nav-btn" (click)="nextAccount()" [disabled]="currentIndex === accounts.length - 1">❯</button>
-
+    <!-- Pagination Indicator -->
+    @if(accounts().length > 1){
+    <div class="pagination-indicator">
+      <div class="pagination-text">
+        <span class="current-page">{{ currentIndex() + 1 }}</span>
+        <span class="separator">/</span>
+        <span class="total-pages">{{ accounts().length }}</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="((currentIndex() + 1) / accounts().length) * 100"></div>
+      </div>
+    </div>
+    }
   </div>
-    }
-
-    @if(accounts.length > 1){
-    <div class="pagination">
-        {{ currentIndex + 1 }} / {{ accounts.length }}
-    </div>
-    }
-
+  }
 </div>
