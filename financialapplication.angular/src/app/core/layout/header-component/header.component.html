@@ -12,17 +12,17 @@
 
   <!-- Auth Actions -->
   <div class="auth-actions">
-    @if(!loggedIn()){
-    <button mat-button class="signin-btn" (click)="login()">
+    @if(!authService.isLoggedIn()){
+    <button mat-button class="signin-btn" (click)="authService.login()">
       <mat-icon>login</mat-icon>
       <span>Sign In</span>
     </button>
-    <button mat-flat-button color="accent" class="register-btn" (click)="register()">
+    <button mat-flat-button color="accent" class="register-btn" (click)="authService.register()">
       <mat-icon>person_add</mat-icon>
       <span>Register</span>
     </button>
       } @else {
-    <button mat-button class="logout-btn" (click)="logout()">
+    <button mat-button class="logout-btn" (click)="authService.logout()">
       <mat-icon>logout</mat-icon>
       <span>Sign Out</span>
     </button>

@@ -1,16 +1,16 @@
 <div class="home-container">
   <!-- Not logged in message -->
-  @if(!isLoading() && !loggedIn()){
+  @if(!isLoading() && !authService.isLoggedIn()){
   <div class="not-logged-in-state">
     <mat-icon class="empty-icon">lock</mat-icon>
     <h2>Please sign in to view your accounts</h2>
     <p>You need to log in or register before you can access your financial data.</p>
     <div class="auth-btn-group">
-      <button mat-stroked-button color="primary" routerLink="/login">
+      <button mat-stroked-button color="primary" (click)="authService.login()">
         <mat-icon>login</mat-icon>
         Sign In
       </button>
-      <button mat-flat-button color="accent" routerLink="/register">
+      <button mat-flat-button color="accent" (click)="authService.register()">
         <mat-icon>person_add</mat-icon>
         Register
       </button>
@@ -24,7 +24,7 @@
   }
 
   <!-- Empty State -->
-  @if(loggedIn() && !isLoading() && accounts().length === 0){
+  @if(authService.isLoggedIn() && !isLoading() && accounts().length === 0){
   <div class="empty-state">
     <mat-icon class="empty-icon">account_balance</mat-icon>
     <h2>No Accounts Found</h2>
@@ -37,7 +37,7 @@
   }
 
   <!-- Accounts Carousel -->
-  @if(loggedIn() && !isLoading() && accounts().length > 0){
+  @if(authService.isLoggedIn() && !isLoading() && accounts().length > 0){
   <div class="carousel-section">
     <div class="carousel-header">
       <h1>Your Accounts</h1>
@@ -81,7 +81,7 @@
     </div>
 
     <!-- Pagination Indicator -->
-    @if(loggedIn() && accounts().length > 1){
+    @if(authService.isLoggedIn() && accounts().length > 1){
     <div class="pagination-indicator">
       <div class="pagination-text">
         <span class="current-page">{{ currentIndex() + 1 }}</span>
