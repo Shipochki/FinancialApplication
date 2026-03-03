@@ -9,7 +9,7 @@
     using System.ComponentModel.DataAnnotations;
     using static ClaimsPrincipalExtensions;
 
-    [Authorize]
+    [Authorize(Policy = "RequireApiScope")]
     [ApiController]
     [Route("api/[controller]")]
     public class AccountController : BaseController

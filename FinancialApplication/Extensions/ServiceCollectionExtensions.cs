@@ -32,11 +32,24 @@
 
             builder.Services.AddAuthorization(options =>
             {
+                //options.AddPolicy("RequireApiScope", policy =>
+                //{
+                //    policy.RequireAuthenticatedUser();
+                //    // "scp" is the claim type for scopes in Entra ID tokens
+                //    policy.RequireClaim("scp", "access_as_user");
+                //});
                 options.AddPolicy("RequireApiScope", policy =>
                 {
                     policy.RequireAuthenticatedUser();
-                    // "scp" is the claim type for scopes in Entra ID tokens
-                    policy.RequireClaim("scp", "access_as_user");
+                    policy.RequireAssertion(context =>
+                    {
+                        // .NET often renames "scp" to this long schema string. We check for both.
+                        var scopeClaim = context.User.FindFirst("http://schemas.microsoft.com/identity/claims/scope")
+                                      ?? context.User.FindFirst("scp");
+
+                        // Check if the claim exists and contains our specific scope
+                        return scopeClaim != null && scopeClaim.Value.Split(' ').Contains("access_as_user");
+                    });
                 });
             });
         }
@@ -57,10 +70,9 @@
             {
                 options.AddPolicy("AllowOrigin",
                     builder => builder
-                    .WithOrigins("https://localhost:4200")
+                    .WithOrigins("http://localhost:4200")
                     .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
+                    .AllowAnyHeader());
             });
 
             return service;

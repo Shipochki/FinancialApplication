@@ -4,7 +4,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MsalService, MsalBroadcastService } from '@azure/msal-angular';
-import { InteractionStatus } from '@azure/msal-browser';
+import { AuthenticationResult, InteractionStatus } from '@azure/msal-browser';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
@@ -88,6 +88,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+
+    this.setLoginDisplay();
     // Automatically update the UI when the user finishes logging in or out
     this.broadcastService.inProgress$
       .pipe(
@@ -103,17 +105,37 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isLoggedIn = this.authService.instance.getAllAccounts().length > 0;
   }
 
-  login() {
-    // Redirects to standard Microsoft login page
-    this.authService.loginRedirect();
-    window.location.reload(); // Force reload to update the UI after login
+  // login() {
+  //   this.authService.loginPopup({
+  //     redirectUri: 'http://localhost:4200/auth-blank.html',
+  //     scopes: []
+  //   }).subscribe({
+  //     next: (result: AuthenticationResult) => {
+  //       // Set the active account so the interceptor knows who is logged in
+  //       this.authService.instance.setActiveAccount(result.account);
+  //       console.log('Login successful:', result);
+  //       // REMOVED: window.location.reload(); 
+  //       // The broadcastService in ngOnInit will automatically update the UI now!
+  //     },
+  //     error: (error) => {
+  //       console.error('Login error:', error);
+  //     }
+  //   });
+  // }
+
+login() {
+    // 1. Abandon the popup entirely.
+    // 2. Use loginRedirect for a seamless, universally friendly flow.
+    this.authService.loginRedirect({
+      scopes: ['api://ae84d976-7f16-4602-ac6c-03763dffdc41/access_as_user'] // Ensure this scope matches your .NET backend custom scope
+    });
   }
 
   register() {
     this.authService.loginRedirect({
       // 'scopes' is required by the RedirectRequest interface
       // 'openid' and 'profile' are standard scopes for basic sign-in
-      scopes: ['access_as_user'], 
+      scopes: ['api://ae84d976-7f16-4602-ac6c-03763dffdc41/access_as_user'], 
       prompt: 'login' // Forces the user to enter credentials
     });
   }

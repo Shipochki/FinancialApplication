@@ -3,15 +3,22 @@ import { HomePageComponent } from './pages/home-page-component/home-page-compone
 import { NgModule } from '@angular/core';
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: '', component: HomePageComponent }, 
     { path: 'home', component: HomePageComponent },
     // { path: 'create-account', component: CreateAccountComponent },
-    { path: '**', redirectTo: '/home' }
+    { path: '**', redirectTo: '' }
 ];
 
+// Safely check if we are in a browser environment to prevent SSR crashes
+const isBrowser = typeof window !== 'undefined';
+const isIframe = isBrowser ? window !== window.parent && !window.opener : false;
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    // If we are on the server or in an iframe, disable initial navigation.
+    // Otherwise, enable blocking so MSAL can read the URL hash!
+    initialNavigation: (!isBrowser || isIframe) ? 'disabled' : 'enabledBlocking' 
+  })],
   exports: [RouterModule]
 })
-
 export class AppRoutingModule { }

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AccountService } from '../../services/account.service';
 import { CommonModule } from '@angular/common';
 import { GetAccountDto } from '../../models/account.model';
+import { MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'app-home-page-component',
@@ -15,18 +16,27 @@ export class HomePageComponent implements OnInit {
   currentIndex: number = 0;
   isLoading: boolean = true;
 
-  constructor(private accountService: AccountService) {}
+  constructor(
+    private accountService: AccountService,
+    @Inject(MsalService) private authService: MsalService,
+  ) { }
 
-  ngOnInit(){
-    this.accountService.getAccounts().subscribe({
-      next: (data) => {
-        this.accounts = data;
-        this.isLoading = false;
-      },
-      error: () => {
-        this.isLoading = false;
-      }
-    });
+  ngOnInit() {
+
+    const currentAccounts = this.authService.instance.getAllAccounts();
+    console.log("Current Accounts:", currentAccounts);
+    if (currentAccounts.length > 0) {
+      this.accountService.getAccounts().subscribe({
+        next: (data) => {
+          this.accounts = data;
+          this.isLoading = false;
+        },
+        error: () => {
+          this.isLoading = false;
+        }
+      });
+    }
+
   }
 
   nextAccount() {
