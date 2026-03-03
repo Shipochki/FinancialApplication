@@ -4,9 +4,9 @@
 
     public interface IUserService
     {
-        public User GetUserByExternalIdAsync(string externalIdentityId);
+        public User? GetUserByExternalIdAsync(string externalIdentityId);
 
-        public Task CreateUserAsync(UserDto userDto);
+        public Task SyncUserAsync(UserDto userDto);
 
         public Task UpdateUserAsync(UserDto userDto);
 

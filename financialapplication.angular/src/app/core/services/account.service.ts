@@ -15,6 +15,4 @@ export class AccountService {
     getAccounts(): Observable<GetAccountDto[]> {
         return this.http.get<GetAccountDto[]>(`${this.apiUrl}/getall`);
     }
-
-
 }

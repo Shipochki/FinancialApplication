@@ -3,30 +3,36 @@
     using FinancialApplication.Application.Common.Interfaces.Repository;
     using FinancialApplication.Domain.Entities;
 
+
     public class UserService : BaseService, IUserService
     {
         public UserService(IRepository repository) : base(repository)
         {
         }
 
-        public async Task CreateUserAsync(UserDto userDto)
+        public async Task SyncUserAsync(UserDto userDto)
         {
-            User? userResult = GetUserByExternalIdAsync(userDto.ExternalIdentityId);
+            User? user = GetUserByExternalIdAsync(userDto.ExternalIdentityId);
 
-            if(userResult != null)
+            if (user == null)
             {
-                throw new ArgumentException($"User with external id {userDto.ExternalIdentityId} already exist!");
+                user = new User
+                {
+                    ExternalIdentityId = userDto.ExternalIdentityId,
+                    FirstName = userDto.FirstName,
+                    LastName = userDto.LastName,
+                    Email = userDto.Email
+                };
+
+                await Repository.AddAsync(user);
+            }
+            else
+            {
+                user.FirstName = userDto.FirstName;
+                user.LastName = userDto.LastName;
+                user.Email = userDto.Email;
             }
 
-            User user = new User
-            {
-                ExternalIdentityId = userDto.ExternalIdentityId,
-                FirstName = userDto.FirstName,
-                LastName = userDto.LastName,
-                Email = userDto.Email
-            };
-
-            await Repository.AddAsync(user);
             await Repository.SaveChangesAsync();
         }
 
@@ -35,17 +41,11 @@
             throw new NotImplementedException();
         }
 
-        public User GetUserByExternalIdAsync(string externalIdentityId)
+        public User? GetUserByExternalIdAsync(string externalIdentityId)
         {
-            User? existingUser = Repository.All<User>()
+            return Repository
+                .All<User>()
                 .FirstOrDefault(u => u.ExternalIdentityId == externalIdentityId);
-
-            if(externalIdentityId == null)
-            {
-                throw new ArgumentNullException($"User with external identity id {externalIdentityId} is not exists.");
-            }
-
-            return existingUser;
         }
 
         public Task UpdateUserAsync(UserDto userDto)

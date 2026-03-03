@@ -2,6 +2,7 @@ import { Injectable, signal } from "@angular/core";
 import { MsalBroadcastService, MsalService } from "@azure/msal-angular";
 import { EventMessage, EventType } from "@azure/msal-browser";
 import { filter } from "rxjs";
+import { UserService } from "./user.service";
 
 @Injectable({
     providedIn: 'root' // This ensures it's a singleton shared across the whole app
@@ -11,7 +12,8 @@ export class GlobalAuthService {
 
     constructor(
         private msalService: MsalService,
-        private msalBroadcastService: MsalBroadcastService
+        private msalBroadcastService: MsalBroadcastService,
+        private userService: UserService
     ) {
         // 1. Set the initial state when the app loads
         this.updateLoginStatus();
@@ -24,12 +26,21 @@ export class GlobalAuthService {
                     msg.eventType === EventType.LOGOUT_SUCCESS
                 )
             )
-            .subscribe(() => {
+            .subscribe((msg: EventMessage) => {
                 this.updateLoginStatus();
+
+                if(msg.eventType === EventType.LOGIN_SUCCESS) {
+                    this.userService.syncUser()
+                    .subscribe({
+                        next: () => console.log('User data synced successfully'),
+                        error: () => console.error('Failed to sync user data')
+                    }); // Sync user data with backend on login
+                }
             });
     }
 
     private updateLoginStatus(): void {
+
         const accounts = this.msalService.instance.getAllAccounts();
         // Update the signal based on whether any accounts are active
         this.isLoggedIn.set(accounts.length > 0);

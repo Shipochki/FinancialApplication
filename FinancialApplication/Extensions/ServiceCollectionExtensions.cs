@@ -29,15 +29,35 @@
 
             builder.Services.ConfigureScopedServices();
             builder.Services.ConfigureCorses();
+            builder.Services.ConfigureAuthorization();
+        }
 
-            builder.Services.AddAuthorization(options =>
+        private static IServiceCollection ConfigureScopedServices(this IServiceCollection services)
+        { 
+            // Register your scoped services here
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRepository, Repository>();
+            return services;
+        }
+
+        private static IServiceCollection ConfigureCorses(this IServiceCollection services)
+        {
+            return services.AddCors(options =>
             {
-                //options.AddPolicy("RequireApiScope", policy =>
-                //{
-                //    policy.RequireAuthenticatedUser();
-                //    // "scp" is the claim type for scopes in Entra ID tokens
-                //    policy.RequireClaim("scp", "access_as_user");
-                //});
+                options.AddPolicy("AllowOrigin",
+                    builder => builder
+                    .WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
+        }
+
+        private static IServiceCollection ConfigureAuthorization(this IServiceCollection services)
+        {
+            return services.AddAuthorization(options =>
+            {
                 options.AddPolicy("RequireApiScope", policy =>
                 {
                     policy.RequireAuthenticatedUser();
@@ -52,30 +72,6 @@
                     });
                 });
             });
-        }
-
-        private static IServiceCollection ConfigureScopedServices(this IServiceCollection services)
-        { 
-            // Register your scoped services here
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<ITransactionService, TransactionService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IRepository, Repository>();
-            return services;
-        }
-
-        private static IServiceCollection ConfigureCorses(this IServiceCollection service)
-        {
-            service.AddCors(options =>
-            {
-                options.AddPolicy("AllowOrigin",
-                    builder => builder
-                    .WithOrigins("http://localhost:4200")
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
-            });
-
-            return service;
         }
     }
 }
