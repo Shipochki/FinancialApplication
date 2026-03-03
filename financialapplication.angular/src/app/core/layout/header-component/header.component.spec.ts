@@ -38,7 +38,7 @@ describe('HeaderComponent', () => {
   });
 
   it('should initially show Sign In when not logged in', () => {
-    component.isLoggedIn = false;
+    component.loggedIn.set(false);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.textContent).toContain('Sign In');

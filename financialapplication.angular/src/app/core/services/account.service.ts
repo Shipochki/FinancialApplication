@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { GetAccountDto } from "../models/account.model";
+import { GetAccountDto } from "../../shared/models/account.model";
 
 @Injectable({
     providedIn: 'root'

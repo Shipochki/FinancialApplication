@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
 import { AuthenticationResult } from '@azure/msal-browser';
-import { HeaderComponent } from './components/header-component/header.component';
+import { HeaderComponent } from './core/layout/header-component/header.component';
 import { HomePageComponent } from './pages/home-page-component/home-page-component';
 
 @Component({

@@ -46,6 +46,43 @@
   box-shadow: var(--card-shadow);
 }
 
+/* Not logged in state */
+.not-logged-in-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  max-width: 500px;
+  text-align: center;
+  padding: 60px 40px;
+  border-radius: 16px;
+  background: white;
+  box-shadow: var(--card-shadow);
+}
+
+.not-logged-in-state h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0;
+}
+
+.not-logged-in-state p {
+  font-size: 1rem;
+  color: #4a5568;
+  margin: 0;
+}
+
+.auth-btn-group {
+  display: flex;
+  gap: 12px;
+}
+
+.auth-btn-group button {
+  min-width: 140px;
+}
+
 .empty-icon {
   font-size: 64px;
   width: 64px;

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,7 +16,7 @@ import { filter, takeUntil } from 'rxjs/operators';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  isLoggedIn = false;
+  loggedIn = signal(false);
   private readonly _destroying$ = new Subject<void>();
 
   constructor(
@@ -39,7 +39,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   setLoginDisplay() {
-    this.isLoggedIn = this.authService.instance.getAllAccounts().length > 0;
+    this.loggedIn.set(this.authService.instance.getAllAccounts().length > 0);
+    console.log('Login status updated:', this.loggedIn());
   }
 
 

@@ -1,13 +1,14 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { AccountService } from '../../services/account.service';
 import { CommonModule } from '@angular/common';
-import { GetAccountDto } from '../../models/account.model';
+import { GetAccountDto } from '../../shared/models/account.model';
 import { MsalService } from '@azure/msal-angular';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
+import { LoadingIndicatorComponent } from '../../shared/components/loading-indicator/loading-indicator.component';
+import { AccountService } from '../../core/services/account.service';
 
 @Component({
   selector: 'app-home-page-component',
@@ -19,6 +20,7 @@ import { RouterModule } from '@angular/router';
     MatIconModule,
     MatProgressSpinnerModule,
     RouterModule,
+    LoadingIndicatorComponent,
   ],
   templateUrl: './home-page-component.html',
   styleUrls: ['./home-page-component.css'],
@@ -27,6 +29,7 @@ export class HomePageComponent implements OnInit {
   accounts = signal<GetAccountDto[]>([]);
   currentIndex = signal(0);
   isLoading = signal(true);
+  loggedIn = signal(false); // track authentication state
 
   private accountService = inject(AccountService);
   private authService = inject(MsalService);
@@ -34,6 +37,8 @@ export class HomePageComponent implements OnInit {
   ngOnInit() {
 
     const currentAccounts = this.authService.instance.getAllAccounts();
+    this.loggedIn.set(currentAccounts.length > 0);
+
     if (currentAccounts.length > 0) {
       this.accountService.getAccounts().subscribe({
         next: (data) => {
@@ -45,6 +50,7 @@ export class HomePageComponent implements OnInit {
         }
       });
     } else {
+      // not logged in, nothing to load
       this.isLoading.set(false);
     }
 

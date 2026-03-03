@@ -1,0 +1,67 @@
+/* Reuse styles previously defined in home page */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-height: 200px;
+}
+
+.loading-state p {
+  font-size: 1rem;
+  color: #4a5568;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Spinner wrapper for smooth fade-in */
+.spinner-wrapper {
+  animation: spinFade 1s ease-in-out forwards;
+}
+
+@keyframes spinFade {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Card skeleton */
+.card-skeleton {
+  width: 300px;
+  padding: 20px;
+  background: #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.card-skeleton div {
+  background: #cbd5e0;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.skeleton-header {
+  width: 60%;
+  height: 20px;
+}
+
+.skeleton-balance {
+  width: 100%;
+  height: 36px;
+}
+
+.skeleton-line {
+  width: 100%;
+  height: 12px;
+}
+
+.skeleton-line.short {
+  width: 70%;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}

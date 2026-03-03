@@ -12,7 +12,7 @@
 
   <!-- Auth Actions -->
   <div class="auth-actions">
-    @if(!isLoggedIn){
+    @if(!loggedIn()){
     <button mat-button class="signin-btn" (click)="login()">
       <mat-icon>login</mat-icon>
       <span>Sign In</span>
