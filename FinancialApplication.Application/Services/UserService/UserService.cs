@@ -3,7 +3,6 @@
     using FinancialApplication.Application.Common.Interfaces.Repository;
     using FinancialApplication.Domain.Entities;
 
-
     public class UserService : BaseService, IUserService
     {
         public UserService(IRepository repository) : base(repository)
@@ -36,9 +35,20 @@
             await Repository.SaveChangesAsync();
         }
 
-        public Task DeleteUserAsync(string userId)
+        public Task DeleteUserAsync(string externalIdentityId)
         {
-            throw new NotImplementedException();
+            User? user = GetUserByExternalIdAsync(externalIdentityId);
+            if (user != null)
+            {
+                user.FirstName = null;
+                user.LastName = null;
+                user.Email = null;
+                user.IsDeleted = true;
+                user.DeletedOn = DateTime.UtcNow;
+                return Repository.SaveChangesAsync();
+            }
+
+            return Task.CompletedTask;
         }
 
         public User? GetUserByExternalIdAsync(string externalIdentityId)
@@ -46,11 +56,6 @@
             return Repository
                 .All<User>()
                 .FirstOrDefault(u => u.ExternalIdentityId == externalIdentityId);
-        }
-
-        public Task UpdateUserAsync(UserDto userDto)
-        {
-            throw new NotImplementedException();
         }
     }
 }

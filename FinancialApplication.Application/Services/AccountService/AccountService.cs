@@ -7,23 +7,22 @@
 
     public class AccountService : BaseService, IAccountService
     {
-        private readonly IUserService userService;
+        private readonly IUserService _userService;
 
         public AccountService(IRepository repository,
             IUserService userService) : base(repository)
         {
-            this.userService = userService;
+            this._userService = userService;
         }
 
         public async Task CreateAccountAsync(AccountDto request)
         {
-            User? owner = Repository.GetByIdAsync<User>(Guid.Parse(request.OwnerId)).Result;
+            User? owner = _userService.GetUserByExternalIdAsync(request.OwnerId);
+            
             if (owner == null)
             {
-                throw new Exception("Owner not found");
+                throw new Exception("When you try to create an Account, the owner was not found!");
             }
-
-            //Get User and check if it is the owner of the account, if not throw exception
 
             Account account = new Account
             {
@@ -82,7 +81,7 @@
 
         public IEnumerable<AccountDto> GetAccountsByOwnerId(string externalIdentityId)
         {
-            User? user = userService.GetUserByExternalIdAsync(externalIdentityId);
+            User? user = _userService.GetUserByExternalIdAsync(externalIdentityId);
 
             return Repository
                 .All<Account>()

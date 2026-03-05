@@ -1,6 +1,6 @@
 import { Injectable, signal } from "@angular/core";
 import { MsalBroadcastService, MsalService } from "@azure/msal-angular";
-import { EventMessage, EventType } from "@azure/msal-browser";
+import { AuthenticationResult, EventMessage, EventType, InteractionStatus } from "@azure/msal-browser";
 import { filter } from "rxjs";
 import { UserService } from "./user.service";
 
@@ -15,34 +15,53 @@ export class GlobalAuthService {
         private msalBroadcastService: MsalBroadcastService,
         private userService: UserService
     ) {
-        // 1. Set the initial state when the app loads
+        console.log(
+            "Active account:",
+            this.msalService.instance.getActiveAccount()
+        );
+
+        console.log(
+            "All accounts:",
+            this.msalService.instance.getAllAccounts()
+        );
+
+        this.msalService.handleRedirectObservable().subscribe();
+
         this.updateLoginStatus();
+
+        // 1. Set the initial state when the app loads
+        this.msalBroadcastService.inProgress$
+            .pipe(
+                filter((status: InteractionStatus) => status === InteractionStatus.None)
+            )
+            .subscribe(() => {
+                this.updateLoginStatus();
+            });
 
         // 2. Listen to MSAL events to update the signal dynamically
         this.msalBroadcastService.msalSubject$
-            .pipe(
-                filter((msg: EventMessage) =>
-                    msg.eventType === EventType.LOGIN_SUCCESS ||
-                    msg.eventType === EventType.LOGOUT_SUCCESS
-                )
-            )
+            .pipe(filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS))
             .subscribe((msg: EventMessage) => {
-                this.updateLoginStatus();
 
-                if(msg.eventType === EventType.LOGIN_SUCCESS) {
-                    this.userService.syncUser()
-                    .subscribe({
-                        next: () => console.log('User data synced successfully'),
-                        error: () => console.error('Failed to sync user data')
-                    }); // Sync user data with backend on login
-                }
+                const result = msg.payload as AuthenticationResult;
+
+                this.msalService.instance.setActiveAccount(result.account);
+
+                this.userService.syncUser().subscribe({
+                    next: () => console.log('User data synced successfully'),
+                    error: () => console.error('Failed to sync user data')
+                });
             });
     }
 
     private updateLoginStatus(): void {
-
         const accounts = this.msalService.instance.getAllAccounts();
-        // Update the signal based on whether any accounts are active
+
+        // Optional but recommended: Set the active account if it's missing
+        if (accounts.length > 0 && !this.msalService.instance.getActiveAccount()) {
+            this.msalService.instance.setActiveAccount(accounts[0]);
+        }
+
         this.isLoggedIn.set(accounts.length > 0);
     }
 

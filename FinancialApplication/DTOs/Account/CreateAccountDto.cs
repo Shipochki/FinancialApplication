@@ -15,6 +15,5 @@
 
         [Range(MinRangeCurrency, MaxRangeCurrency)]
         public int Currency { get; set; }
-        public required string OwnerId { get; set; }
     }
 }

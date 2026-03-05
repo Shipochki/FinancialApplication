@@ -33,7 +33,7 @@
                 Currency = request.Currency,
                 Description = request.Description,
                 Name = request.Name,
-                OwnerId = request.OwnerId
+                OwnerId = User.GetUserId()
             });
 
             return Created();

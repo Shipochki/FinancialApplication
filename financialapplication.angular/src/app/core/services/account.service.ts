@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { GetAccountDto } from "../../shared/models/account.model";
+import { CreateAccountDto, GetAccountDto } from "../../shared/models/account.model";
 
 @Injectable({
     providedIn: 'root'
@@ -14,5 +14,9 @@ export class AccountService {
 
     getAccounts(): Observable<GetAccountDto[]> {
         return this.http.get<GetAccountDto[]>(`${this.apiUrl}/getall`);
+    }
+
+    createAccount(account: CreateAccountDto): Observable<CreateAccountDto> {
+        return this.http.post<CreateAccountDto>(`${this.apiUrl}/createAccount`, account);
     }
 }

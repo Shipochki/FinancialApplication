@@ -8,8 +8,6 @@
 
         public Task SyncUserAsync(UserDto userDto);
 
-        public Task UpdateUserAsync(UserDto userDto);
-
         public Task DeleteUserAsync(string userId);
     }
 }

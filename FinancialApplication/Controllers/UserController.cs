@@ -45,5 +45,20 @@
 
             return Ok();
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> DeleteUser()
+        {
+            string? externalIdentityId = User.GetUserId();
+
+            if(externalIdentityId == null)
+            {
+                return BadRequest("External Identity Id is required.");
+            }
+
+            await UserService.DeleteUserAsync(externalIdentityId);
+            return Ok();
+        }
     }
 }

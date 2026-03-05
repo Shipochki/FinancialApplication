@@ -66,4 +66,5 @@ export class HomePageComponent implements OnInit {
     };
     return currencyMap[code] ?? 'USD';
   }
+  
 }
