@@ -1,0 +1,46 @@
+<div class="account-page-container">
+    @if(account() !== null){
+    <mat-card class="account-card">
+      <mat-card-header>
+        <mat-card-title>{{ account().name }}</mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div class="account-info">
+          <p><strong>Balance:</strong> {{ account().balance | currency }}</p>
+          
+          @if (account().description) {
+            <p><strong>Description:</strong> {{ account().description }}</p>
+          }
+        </div>
+
+        <mat-divider></mat-divider>
+        
+        <h3 class="transactions-header">Recent Transactions</h3>
+        
+        @if (account().transactionDtos.length > 0) {
+          <mat-list>
+            @for (transaction of account().transactionDtos | slice:0:3; track transaction.id) {
+              <mat-list-item>
+                <span matListItemTitle>
+                  {{ transaction.date | date:'mediumDate' }} 
+                  <span class="transaction-amount" [class.negative]="transaction.type === 1"> {{ transaction.amount | currency }}
+                  </span>
+                </span>
+                <span matListItemLine>{{ transaction.description || 'No description provided' }}</span>
+              </mat-list-item>
+            }
+          </mat-list>
+        } @else {
+          <p class="no-data">No transactions found for this account.</p>
+        }
+      </mat-card-content>
+      
+      <mat-card-actions>
+        <button mat-flat-button color="primary" routerLink="/add-transaction">Add Transaction</button>
+      </mat-card-actions>
+    </mat-card>
+} @else {
+
+}
+</div>

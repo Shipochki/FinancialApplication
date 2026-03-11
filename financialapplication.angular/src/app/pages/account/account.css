@@ -1,0 +1,60 @@
+.account-page-container {
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+.account-card {
+  width: 100%;
+  max-width: 650px;
+  margin-top: 2rem;
+  
+  mat-card-content {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    
+    .account-info {
+      margin-bottom: 24px;
+      
+      p {
+        margin: 8px 0;
+        font-size: 1.1rem;
+      }
+    }
+
+    .transactions-header {
+      margin-top: 24px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .transaction-amount {
+      font-weight: bold;
+      margin-left: 8px;
+      color: green; /* Default to green for income */
+
+      &.negative {
+        color: red; /* Red for expenses */
+      }
+    }
+
+    .no-data {
+      color: #666;
+      font-style: italic;
+      margin-top: 16px;
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  gap: 16px;
+  color: #666;
+}

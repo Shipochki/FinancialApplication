@@ -1,7 +1,7 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { CreateAccountDto, GetAccountDto } from "../../shared/models/account.model";
+import { CreateAccountDto, GetAccountDetailsDto, GetAccountDto } from "../../shared/models/account.model";
 
 @Injectable({
     providedIn: 'root'
@@ -18,5 +18,11 @@ export class AccountService {
 
     createAccount(account: CreateAccountDto): Observable<CreateAccountDto> {
         return this.http.post<CreateAccountDto>(`${this.apiUrl}/createAccount`, account);
+    }
+
+    getAccountDetails(accountId: string, transactionLimit?: number): Observable<GetAccountDetailsDto> {
+        const url = `${this.apiUrl}/getAccountDetails/${accountId}`;
+        const params = new HttpParams().set('transactionLimit', transactionLimit?.toString() || '');
+        return this.http.get<GetAccountDetailsDto>(url, { params });
     }
 }

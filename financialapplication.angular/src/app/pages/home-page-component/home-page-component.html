@@ -45,12 +45,13 @@
     </div>
 
     <div class="carousel-container">
-      <button mat-icon-button class="nav-btn nav-prev" (click)="prevAccount()" [disabled]="currentIndex() === 0" aria-label="Previous account">
+      <button mat-icon-button class="nav-btn nav-prev" (click)="prevAccount()" [disabled]="currentIndex() === 0"
+        aria-label="Previous account">
         <mat-icon>chevron_left</mat-icon>
       </button>
 
       <div class="account-card-wrapper">
-        <mat-card class="account-card">
+        <mat-card class="account-card" (click)="onClickCard(accounts()[currentIndex()].id)">
           <mat-card-header>
             <div class="card-header-content">
               <h2 class="account-name">{{ accounts()[currentIndex()].name }}</h2>
@@ -62,7 +63,8 @@
             <div class="balance-section">
               <p class="balance-label">Account Balance</p>
               <div class="balance-display">
-                {{ accounts()[currentIndex()].balance | currency: getCurrencyCode(accounts()[currentIndex()].currency) }}
+                {{ accounts()[currentIndex()].balance | currency: getCurrencyCode(accounts()[currentIndex()].currency)
+                }}
               </div>
             </div>
 
@@ -75,7 +77,8 @@
         </mat-card>
       </div>
 
-      <button mat-icon-button class="nav-btn nav-next" (click)="nextAccount()" [disabled]="currentIndex() === accounts().length - 1" aria-label="Next account">
+      <button mat-icon-button class="nav-btn nav-next" (click)="nextAccount()"
+        [disabled]="currentIndex() === accounts().length - 1" aria-label="Next account">
         <mat-icon>chevron_right</mat-icon>
       </button>
     </div>
@@ -93,6 +96,12 @@
       </div>
     </div>
     }
+  </div>
+  <div>
+    <button mat-flat-button color="primary" class="create-account-btn" routerLink="/create-account">
+      <mat-icon>add</mat-icon>
+      Create Account
+    </button>
   </div>
   }
 </div>

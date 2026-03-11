@@ -4,6 +4,7 @@ import { HomePageComponent } from './pages/home-page-component/home-page-compone
 import { CreateAccount } from './pages/create-account/create-account';
 // import { authGuard } from './core/guard/auth.guard';
 import { MsalGuard } from '@azure/msal-angular';
+import { Account } from './pages/account/account';
 
 export const routes: Routes = [
   { 
@@ -17,6 +18,11 @@ export const routes: Routes = [
   { 
     path: 'create-account', 
     component: CreateAccount,
+    canActivate: [MsalGuard]
+  },
+  {
+    path: 'account/:accountId',
+    component: Account,
     canActivate: [MsalGuard]
   },
   { 

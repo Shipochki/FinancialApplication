@@ -4,6 +4,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { GlobalAuthService } from '../../services/GlobalAuthService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -14,4 +15,9 @@ import { GlobalAuthService } from '../../services/GlobalAuthService';
 })
 export class HeaderComponent {
   public authService = inject(GlobalAuthService)
+  router = inject(Router);
+
+  navigateToHome() {
+    this.router.navigate(['/home']);
+  }
 }

@@ -10,18 +10,18 @@
         {
         }
 
-        public Task CreateTransactionAsync(TransactionDto transactionDto)
+        public async Task CreateTransactionAsync(TransactionDto transactionDto)
         {
-            Account? account = Repository.GetByIdAsync<Account>(Guid.Parse(transactionDto.AccountId)).Result;
+            Account? account = await Repository.GetByIdAsync<Account>(Guid.Parse(transactionDto.AccountId));
             if (account == null)
             {
-                throw new ArgumentNullException("Account not found");
+                throw new ArgumentNullException($"{nameof(TransactionService)} - {nameof(CreateTransactionAsync)} - {nameof(Account)} not found");
             }
 
-            Category? category = Repository.GetByIdAsync<Category>(Guid.Parse(transactionDto.CategoryId)).Result;
+            Category? category = await Repository.GetByIdAsync<Category>(Guid.Parse(transactionDto.CategoryId));
             if(category == null)
             {
-                throw new ArgumentNullException("Category not found");
+                throw new ArgumentNullException($"{nameof(TransactionService)} - {nameof(CreateTransactionAsync)} - {nameof(category)} not found");
             }
 
             Transaction transaction = new Transaction
@@ -40,13 +40,28 @@
             account.Balance += transaction.Type == TypeTransaction.Income ? transaction.Amount : -transaction.Amount;
 
 
-            Repository.AddAsync(transaction);
-            return Repository.SaveChangesAsync();
-        }
+            await Repository.AddAsync(transaction);
+            await Repository.SaveChangesAsync();        }
 
         public Task DeleteTransactionAsync(string transactionId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<TransactionDto>> GetTopTransactionsByAccountId(string accountId, int number)
+        {
+            Account? account = await Repository.GetByIdAsync<Account>(Guid.Parse(accountId));
+            if (account == null)
+            {
+                throw new ArgumentNullException($"{nameof(TransactionService)} - {nameof(CreateTransactionAsync)} - {nameof(Account)} not found");
+            }
+
+            return Repository.All<Transaction>()
+                .Where(t => t.AccountId == account.Id)
+                .OrderByDescending(t => t.Date)
+                .Take(number)
+                .Select(t => TransactionDto.TransactionToTransactionDto(t))
+                .ToList();
         }
 
         public Task<TransactionDto> GetTransactionByIdAsync(string transactionId)

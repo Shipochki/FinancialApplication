@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { LoadingIndicatorComponent } from '../../shared/components/loading-indicator/loading-indicator.component';
 import { AccountService } from '../../core/services/account.service';
 import { GlobalAuthService } from '../../core/services/GlobalAuthService';
@@ -31,6 +31,7 @@ export class HomePageComponent implements OnInit {
   accounts = signal<GetAccountDto[]>([]);
   currentIndex = signal(0);
   isLoading = signal(true);
+  router = inject(Router);
 
   private accountService = inject(AccountService);
 
@@ -67,4 +68,8 @@ export class HomePageComponent implements OnInit {
     return currencyMap[code] ?? 'USD';
   }
   
+  onClickCard(accountId: string) {
+    // Navigate to the account details page
+    this.router.navigate([`/account/${accountId}`]);
+  }
 }
