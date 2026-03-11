@@ -15,15 +15,15 @@ export class GlobalAuthService {
         private msalBroadcastService: MsalBroadcastService,
         private userService: UserService
     ) {
-        console.log(
-            "Active account:",
-            this.msalService.instance.getActiveAccount()
-        );
+        // console.log(
+        //     "Active account:",
+        //     this.msalService.instance.getActiveAccount()
+        // );
 
-        console.log(
-            "All accounts:",
-            this.msalService.instance.getAllAccounts()
-        );
+        // console.log(
+        //     "All accounts:",
+        //     this.msalService.instance.getAllAccounts()
+        // );
 
         this.msalService.handleRedirectObservable().subscribe();
 
@@ -48,8 +48,8 @@ export class GlobalAuthService {
                 this.msalService.instance.setActiveAccount(result.account);
 
                 this.userService.syncUser().subscribe({
-                    next: () => console.log('User data synced successfully'),
-                    error: () => console.error('Failed to sync user data')
+                    // next: () => console.log('User data synced successfully'),
+                    // error: () => console.error('Failed to sync user data')
                 });
             });
     }

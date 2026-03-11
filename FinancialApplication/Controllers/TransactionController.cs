@@ -4,9 +4,11 @@
     using FinancialApplication.Application.Services.AccountService;
     using FinancialApplication.Application.Services.TransactionService;
     using FinancialApplication.Application.Services.UserService;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
 
+    [Authorize(Policy = "RequireApiScope")]
     [ApiController]
     [Route("api/[controller]")]
     public class TransactionController : BaseController
