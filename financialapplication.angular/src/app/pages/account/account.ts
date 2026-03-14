@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../../core/services/account.service';
 import { switchMap } from 'rxjs';
 import { CurrencyPipe, DatePipe, SlicePipe } from '@angular/common';
@@ -17,7 +17,6 @@ import { GetAccountDetailsDto } from '../../shared/models/account.model';
     SlicePipe,
     DatePipe,
     CurrencyPipe,
-    RouterLink,
     MatCardModule,
     MatProgressSpinnerModule,
     MatButtonModule,
@@ -29,20 +28,27 @@ import { GetAccountDetailsDto } from '../../shared/models/account.model';
 })
 export class Account implements OnInit {
   private route = inject(ActivatedRoute);
+  private routeNavigator = inject(Router);
   private accountService = inject(AccountService);
   private authService = inject(GlobalAuthService);
   account = signal<GetAccountDetailsDto>(null!);
+  accountId = signal('');
 
   ngOnInit() {
     if (this.authService.isLoggedIn()) {
       this.route.paramMap.pipe(
         switchMap(params => {
-          const accountId = params.get('accountId') || '';
-          return this.accountService.getAccountDetails(accountId, 3);
+          this.accountId.set(params.get('accountId') || '');
+          return this.accountService.getAccountDetails(this.accountId(), 3);
         })
       ).subscribe(account => {
         this.account.set(account);
       });
     }
+  }
+
+  toAddTransaction(){
+    console.log(this.accountId())
+    this.routeNavigator.navigate([`/add-transaction/${this.accountId()}`])
   }
 }

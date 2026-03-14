@@ -83,7 +83,7 @@
                     Id = transaction.Id,
                     Type = transaction.Type,
                     Amount = transaction.Amount,
-                    Date = transaction.Date.ToString(),
+                    Date = transaction.Date.ToString("yyyy-MM-ddTHH:mm:ssZ"),
                     Description = transaction.Description,
                     CategoryId = transaction.CategoryId,
                     AccountId = transaction.AccountId

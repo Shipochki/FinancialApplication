@@ -5,6 +5,7 @@ import { CreateAccount } from './pages/create-account/create-account';
 // import { authGuard } from './core/guard/auth.guard';
 import { MsalGuard } from '@azure/msal-angular';
 import { Account } from './pages/account/account';
+import { CreateTransaction } from './pages/create-transaction/create-transaction';
 
 export const routes: Routes = [
   { 
@@ -23,6 +24,11 @@ export const routes: Routes = [
   {
     path: 'account/:accountId',
     component: Account,
+    canActivate: [MsalGuard]
+  },
+  {
+    path: 'add-transaction/:accountId',
+    component: CreateTransaction,
     canActivate: [MsalGuard]
   },
   { 

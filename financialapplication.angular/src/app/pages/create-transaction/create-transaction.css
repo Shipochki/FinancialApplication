@@ -1,0 +1,62 @@
+.transaction-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  
+  /* Use Material 3 surface variables instead of hardcoded white */
+  background-color: var(--mdc-theme-surface, #ffffff);
+  color: var(--mdc-theme-on-surface, #1d1b20);
+  
+  /* M3 typically uses slightly softer, more rounded corners (12px-16px) */
+  border-radius: 16px; 
+  /* Softer shadow for a friendlier, modern UI */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+
+  h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    /* Pulling the primary Azure color for the heading */
+    color: var(--mdc-theme-primary, #005fcc);
+    font-weight: 500;
+  }
+}
+
+.error-banner {
+  /* Using Material error container variables for consistency */
+  background-color: var(--mdc-theme-error-container, #f9dedc);
+  color: var(--mdc-theme-on-error-container, #410e0b);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.transaction-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; /* Slightly more breathing room to match density: 0 */
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.category-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  mat-icon {
+    vertical-align: middle;
+    /* Pull the tertiary Blue palette color for the icons if you want them to pop */
+    color: var(--mdc-theme-tertiary, #006494);
+  }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}

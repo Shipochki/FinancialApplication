@@ -1,7 +1,10 @@
 import { HttpClient } from "@angular/common/http";
-import { inject } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { CreateTransactionDto } from "../../shared/models/transaction.model";
 
+@Injectable({
+    providedIn: 'root'
+})
 export class TransactionService {
     private http = inject(HttpClient);
 
