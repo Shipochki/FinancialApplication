@@ -2,7 +2,8 @@
 {
     using FinancialApplication.Api.DTOs.User;
     using FinancialApplication.Application.Services.AccountService;
-    using FinancialApplication.Application.Services.TransactionService;
+	using FinancialApplication.Application.Services.CategoryService;
+	using FinancialApplication.Application.Services.TransactionService;
     using FinancialApplication.Application.Services.UserService;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -16,8 +17,9 @@
     {
         public UserController(IAccountService accountService
             , IUserService userService
-            , ITransactionService transactionService)
-            : base(accountService, userService, transactionService)
+            , ITransactionService transactionService
+            , ICategoryService categoryService)
+            : base(accountService, userService, transactionService, categoryService)
         {
         }
 
