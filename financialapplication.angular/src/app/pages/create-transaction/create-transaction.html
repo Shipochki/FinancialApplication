@@ -52,7 +52,9 @@
       <mat-label>Description</mat-label>
       <textarea matInput formControlName="description" rows="3" placeholder="Optional notes..."></textarea>
       <mat-hint align="end">{{ transactionForm.get('description')?.value?.length || 0 }} / 200</mat-hint>
-      <mat-error *ngIf="transactionForm.get('description')?.hasError('maxlength')">Max 200 characters</mat-error>
+      @if(transactionForm.get('description')?.hasError('maxlength')){
+        <mat-error>Max 200 characters</mat-error>
+      }
     </mat-form-field>
 
     <div class="form-actions">

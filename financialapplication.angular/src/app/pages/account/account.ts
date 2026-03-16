@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../../core/services/account.service';
 import { switchMap } from 'rxjs';
-import { CurrencyPipe, DatePipe, SlicePipe } from '@angular/common';
+import { CurrencyPipe, SlicePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,19 +10,21 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { GlobalAuthService } from '../../core/services/GlobalAuthService';
 import { GetAccountDetailsDto } from '../../shared/models/account.model';
+import { TransactionCard } from "../../shared/transaction-card/transaction-card";
+ 
 
 @Component({
   selector: 'app-account',
   imports: [
     SlicePipe,
-    DatePipe,
     CurrencyPipe,
     MatCardModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatDividerModule,
-    MatListModule
-  ],
+    MatListModule,
+    TransactionCard
+],
   templateUrl: './account.html',
   styleUrl: './account.css',
 })
@@ -48,7 +50,6 @@ export class Account implements OnInit {
   }
 
   toAddTransaction(){
-    console.log(this.accountId())
     this.routeNavigator.navigate([`/add-transaction/${this.accountId()}`])
   }
 }

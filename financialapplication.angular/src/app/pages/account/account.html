@@ -20,15 +20,7 @@
 
       <mat-list>
         @for (transaction of account().transactionDtos | slice:0:3; track transaction.id) {
-        <mat-list-item>
-          <span matListItemTitle>
-            {{ transaction.date | date:'mediumDate' }}
-            <span class="transaction-amount" [class.negative]="transaction.type === 0">
-              {{ transaction.amount | currency }}
-            </span>
-          </span>
-          <span matListItemLine>{{ transaction.description || 'No description provided' }}</span>
-        </mat-list-item>
+          <app-transaction-card [transaction]="transaction"></app-transaction-card>
         } @empty {
         <p class="no-data">No transactions found.</p>
         }

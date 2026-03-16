@@ -1,0 +1,67 @@
+.transaction-card {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  .transaction-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    
+    /* Inherits your global theme background colors */
+    background-color: var(--mat-sys-surface-variant);
+    
+    &.income {
+      color: var(--mat-sys-primary); /* Uses your azure-palette */
+    }
+    
+    &.expense {
+      color: var(--mat-sys-tertiary); /* Uses your blue-palette */
+    }
+  }
+
+  .description {
+    margin-top: 12px;
+    margin-bottom: 16px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  .tag-container {
+    margin-top: 8px;
+  }
+
+  /* Add these to the end of your existing transaction-card styles */
+
+.card-actions {
+  /* Gives the button a bit more breathing room at the bottom of the card */
+  padding: 0 16px 16px 16px; 
+}
+
+.details-btn {
+  /* Creates a modern, pill-shaped button */
+  border-radius: 24px; 
+  padding: 0 20px;
+  font-weight: 500;
+  
+  /* Inherits your azure primary color for the text and border */
+  color: var(--mat-sys-primary);
+  border-color: var(--mat-sys-primary);
+  
+  /* Smooth animation for the hover state */
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    /* Fills the button with your primary color on hover */
+    background-color: var(--mat-sys-primary);
+    color: var(--mat-sys-on-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+}
+}

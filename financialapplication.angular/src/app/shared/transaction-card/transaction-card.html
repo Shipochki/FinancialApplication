@@ -1,0 +1,27 @@
+<mat-card class="transaction-card" appearance="outlined">
+  <mat-card-header>
+    <div mat-card-avatar class="transaction-avatar" [ngClass]="{'income': isIncome, 'expense': !isIncome}">
+      <mat-icon>{{ isIncome ? 'arrow_downward' : 'arrow_upward' }}</mat-icon>
+    </div>
+    
+    <mat-card-title>{{ transaction.amount | currency }}</mat-card-title>
+    <mat-card-subtitle>{{ transaction.date | date:'mediumDate' }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p class="description">{{ transaction.description || 'No description provided' }}</p>
+    
+    <!-- <div class="tag-container">
+      <mat-chip-set>
+        <mat-chip highlighted>Category: {{ transaction.categoryId }}</mat-chip>
+        <mat-chip>Account: {{ transaction.accountId }}</mat-chip>
+      </mat-chip-set>
+    </div> -->
+  </mat-card-content>
+
+  <mat-card-actions align="end" class="card-actions">
+    <button mat-stroked-button class="details-btn" (click)="onClickTransaction()">
+      View Details
+    </button>
+  </mat-card-actions>
+</mat-card>
