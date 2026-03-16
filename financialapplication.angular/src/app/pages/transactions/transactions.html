@@ -1,0 +1,46 @@
+<div class="page-container">
+  <h2 class="mat-headline-4">Account Transactions</h2>
+
+  <div class="scroll-viewport" (scroll)="onScroll($event)">
+    
+    <div class="transaction-list">
+      @for (tx of transactions; track tx.id) {
+        <mat-card appearance="outlined" class="tx-card">
+          <mat-card-content class="tx-content">
+            
+            <div class="tx-details">
+              <div class="tx-header">
+                <span class="tx-date">{{ tx.date | date:'mediumDate' }}</span>
+              </div>
+              <div class="tx-description">
+                {{ tx.description || 'No description provided' }}
+              </div>
+            </div>
+
+            <div class="tx-amount" [ngClass]="{'expense': tx.type === 0, 'income': tx.type === 1}">
+              {{ tx.type === 0 ? '-' : '+' }} {{ tx.amount | currency:'USD':'symbol':'1.2-2' }}
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+      } @empty {
+        @if (!this.isLoading()) {
+          <p class="empty-state">No transactions found for this account.</p>
+        }
+      }
+    </div>
+
+    @if (this.isLoading()) {
+      <div class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+    }
+
+    @if (!hasMore && transactions.length > 0) {
+      <div class="end-message">
+        <p>You have reached the end of your transactions.</p>
+      </div>
+    }
+
+  </div>
+</div>

@@ -9,11 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-
-interface CurrencyOption {
-  value: number;
-  label: string;
-}
+import { CurrencyType } from '../../shared/enums/currency-type';
 
 @Component({
   selector: 'app-create-account',
@@ -37,13 +33,13 @@ export class CreateAccount {
 
   private accountService = inject(AccountService);
 
-  currencies: CurrencyOption[] = [
-    { value: 0, label: 'USD' },
-    { value: 1, label: 'EUR' },
-    { value: 2, label: 'GBP' },
-    { value: 3, label: 'JPY' },
-    { value: 4, label: 'AUD' },
-    { value: 5, label: 'CAD' }
+  currencies = [
+    { label: 'USD', value: CurrencyType.USD },
+    { label: 'EUR', value: CurrencyType.EUR },
+    { label: 'GBP', value: CurrencyType.GBP },
+    { label: 'JPY', value: CurrencyType.JPY },
+    { label: 'AUD', value: CurrencyType.AUD },
+    { label: 'CAD', value: CurrencyType.CAD }
   ];
 
   constructor(private fb: FormBuilder) {

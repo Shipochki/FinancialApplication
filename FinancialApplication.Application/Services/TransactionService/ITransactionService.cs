@@ -6,7 +6,7 @@
         Task UpdateTransactionAsync(TransactionDto transactionDto);
         Task DeleteTransactionAsync(string transactionId);
         Task<TransactionDto> GetTransactionByIdAsync(string transactionId);
-
         Task<List<TransactionDto>> GetTopTransactionsByAccountId(string accountId, int number);
+		List<TransactionDto> GetAllTransactionsForScroll(string accountId, int skip, int pageSize);
     }
 }

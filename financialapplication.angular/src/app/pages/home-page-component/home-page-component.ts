@@ -9,6 +9,7 @@ import { Router, RouterModule } from '@angular/router';
 import { LoadingIndicatorComponent } from '../../shared/components/loading-indicator/loading-indicator.component';
 import { AccountService } from '../../core/services/account.service';
 import { GlobalAuthService } from '../../core/services/GlobalAuthService';
+import { CurrencyType } from '../../shared/enums/currency-type';
 
 @Component({
   selector: 'app-home-page-component',
@@ -59,14 +60,18 @@ export class HomePageComponent implements OnInit {
     this.currentIndex.update(i => Math.max(i - 1, 0));
   }
 
-  getCurrencyCode(code: number): string {
-    const currencyMap: Record<number, string> = {
-      0: 'USD',
-      1: 'EUR',
-      2: 'BGN',
-    };
-    return currencyMap[code] ?? 'USD';
-  }
+  getCurrencyCode(type: CurrencyType): string {
+  const currencyMap: Record<CurrencyType, string> = {
+    [CurrencyType.USD]: 'USD',
+    [CurrencyType.EUR]: 'EUR',
+    [CurrencyType.GBP]: 'GBP',
+    [CurrencyType.JPY]: 'JPY',
+    [CurrencyType.AUD]: 'AUD',
+    [CurrencyType.CAD]: 'CAD'
+  };
+
+  return currencyMap[type] ?? 'USD';
+}
   
   onClickCard(accountId: string) {
     // Navigate to the account details page

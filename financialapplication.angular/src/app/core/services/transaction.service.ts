@@ -1,6 +1,6 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { CreateTransactionDto, GetTransactionDetailsDto } from "../../shared/models/transaction.model";
+import { CreateTransactionDto, GetTransactionDetailsDto, GetTransactionDto } from "../../shared/models/transaction.model";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -15,7 +15,18 @@ export class TransactionService {
         return this.http.post(`${this.apiUrl}/createTransaction`, transaction);
     }
 
-    getTransactionDetails(transactionId: string): Observable<GetTransactionDetailsDto>{
+    getTransactionDetails(transactionId: string): Observable<GetTransactionDetailsDto> {
         return this.http.get<GetTransactionDetailsDto>(`${this.apiUrl}/getTransactionDetails/${transactionId}`)
+    }
+
+    getAllTransactionsByAccountId(accountId: string, skip: number, pageSize: number): Observable<GetTransactionDto[]> {
+        const url = `${this.apiUrl}/GetAllTransactionsByAccountId/${accountId}`;
+
+        // Chain .set() to include both pagination parameters
+        const params = new HttpParams()
+            .set('skip', skip.toString())
+            .set('pageSize', pageSize.toString());
+
+        return this.http.get<GetTransactionDto[]>(url, { params });
     }
 }

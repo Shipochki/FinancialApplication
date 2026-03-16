@@ -48,7 +48,21 @@
             throw new NotImplementedException();
         }
 
-        public async Task<List<TransactionDto>> GetTopTransactionsByAccountId(string accountId, int number)
+		public List<TransactionDto> GetAllTransactionsForScroll(string accountId, int skip, int pageSize)
+		{
+            List<TransactionDto> transactions = Repository
+                .All<Transaction>()
+                .Where(t => t.AccountId == Guid.Parse(accountId))
+                .OrderByDescending(t => t.Date)
+                .Skip(skip)
+                .Take(pageSize)
+                .Select(TransactionDto.TransactionToTransactionDto)
+                .ToList();
+
+            return transactions;
+		}
+
+		public async Task<List<TransactionDto>> GetTopTransactionsByAccountId(string accountId, int number)
         {
             Account? account = await Repository.GetByIdAsync<Account>(Guid.Parse(accountId));
             if (account == null)

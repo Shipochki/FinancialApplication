@@ -52,4 +52,8 @@ export class Account implements OnInit {
   toAddTransaction(){
     this.routeNavigator.navigate([`/add-transaction/${this.accountId()}`])
   }
+
+  toTransactions(){
+    this.routeNavigator.navigate([`/transactions/${this.accountId()}`])
+  }
 }
