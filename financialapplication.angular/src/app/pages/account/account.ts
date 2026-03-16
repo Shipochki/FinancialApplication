@@ -10,7 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { GlobalAuthService } from '../../core/services/GlobalAuthService';
 import { GetAccountDetailsDto } from '../../shared/models/account.model';
-import { TransactionCard } from "../../shared/transaction-card/transaction-card";
+import { TransactionCard } from '../../shared/components/transaction-card/transaction-card';
  
 
 @Component({

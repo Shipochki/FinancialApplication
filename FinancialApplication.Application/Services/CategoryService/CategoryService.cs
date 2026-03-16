@@ -30,5 +30,25 @@ namespace FinancialApplication.Application.Services.CategoryService
 				.Select(c => CategoryDto.CategoryDtoToCategory(c))
 				.ToList();
 		}
+
+		public async Task<CategoryDto> GetCategoryByIdAsync(string categoryId, string userExternalId)
+		{
+			User? user = _userService.GetUserByExternalIdAsync(userExternalId);
+
+			Category? category = await Repository
+				.FirstOrDefaultAsync<Category>(c => c.Id == Guid.Parse(categoryId));
+
+			if(category.Owner != null && category.OwnerId != user.Id)
+			{
+				throw new ArgumentException($"User id: {user.Id} is not the owner of category: {category.Id}");
+			}
+
+			if(category == null)
+			{
+				throw new ArgumentNullException($"Service: {nameof(CategoryService)}, Method: {nameof(GetCategoryByIdAsync)} Category with id: {categoryId} is missing");
+			}
+
+			return CategoryDto.CategoryDtoToCategory(category);
+		}
 	}
 }

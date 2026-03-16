@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { GetTransactionDto } from '../models/transaction.model';
 import { Router } from '@angular/router';
+import { GetTransactionDto } from '../../models/transaction.model';
 
 @Component({
   selector: 'app-transaction-card',

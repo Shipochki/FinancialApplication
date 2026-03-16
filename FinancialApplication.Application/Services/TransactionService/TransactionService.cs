@@ -64,9 +64,17 @@
                 .ToList();
         }
 
-        public Task<TransactionDto> GetTransactionByIdAsync(string transactionId)
+        public async Task<TransactionDto> GetTransactionByIdAsync(string transactionId)
         {
-            throw new NotImplementedException();
+            Transaction? transaction = await Repository
+                .FirstOrDefaultAsync<Transaction>(t => t.Id == Guid.Parse(transactionId));
+
+            if (transaction == null)
+            {
+                throw new ArgumentNullException($"{nameof(TransactionService)} - {nameof(GetTransactionByIdAsync)} - {nameof(Transaction)} not found");
+            }
+
+            return TransactionDto.TransactionToTransactionDto(transaction);
         }
 
         public Task UpdateTransactionAsync(TransactionDto transactionDto)

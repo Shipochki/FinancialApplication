@@ -1,0 +1,76 @@
+.page-container {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  height: 100%;
+  box-sizing: border-box;
+  background-color: var(--mat-sys-surface-container-lowest, #fafafa);
+}
+
+.transaction-card {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+  align-self: flex-start; /* Prevents the card from stretching vertically */
+
+  mat-card-header {
+    margin-bottom: 24px;
+
+    .category-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.04);
+      border-radius: 50%;
+    }
+  }
+
+  .details-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .amount-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 8px;
+
+      .amount {
+        font-size: 2rem;
+        font-weight: 500;
+      }
+    }
+
+    .info-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      strong {
+        font-size: 0.875rem;
+        color: rgba(0, 0, 0, 0.6);
+      }
+
+      span {
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px;
+  }
+}
+
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: rgba(0, 0, 0, 0.6);
+}

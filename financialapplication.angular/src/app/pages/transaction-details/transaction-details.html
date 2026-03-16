@@ -1,0 +1,56 @@
+@if(!this.isLoading()){
+<div class="page-container">
+    <mat-card class="transaction-card" appearance="outlined">
+
+        <mat-card-header>
+            <div mat-card-avatar class="category-icon">
+                <mat-icon color="primary">{{ transaction?.category?.icon }}</mat-icon>
+            </div>
+            <mat-card-title>{{ transaction?.category?.name }}</mat-card-title>
+            <mat-card-subtitle>{{ transaction?.date | date:'medium' }}</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content class="details-content">
+            <div class="amount-section">
+                <span class="amount">
+                    {{ transaction?.amount | currency }}
+                </span>
+                <mat-chip-set>
+                    <mat-chip>{{ transaction?.type === 0 ? 'Expense' : 'Income' }}</mat-chip>
+                </mat-chip-set>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div class="info-row">
+                <strong>Description</strong>
+                <span>{{ transaction?.description || 'No description provided.' }}</span>
+            </div>
+
+            <div class="info-row">
+                <strong>Account ID</strong>
+                <span>{{ transaction?.accountId }}</span>
+            </div>
+
+            <div class="info-row">
+                <strong>Transaction ID</strong>
+                <span>{{ transaction?.id }}</span>
+            </div>
+        </mat-card-content>
+
+        <mat-card-actions class="action-buttons">
+            <button mat-flat-button color="primary" (click)="onEdit()">
+                <mat-icon>edit</mat-icon> Edit
+            </button>
+            <button mat-stroked-button color="warn" (click)="onDelete()">
+                <mat-icon>delete</mat-icon> Delete
+            </button>
+        </mat-card-actions>
+
+    </mat-card>
+</div>
+} @else{
+<div class="loading-state">
+    <p>Loading transaction...</p>
+</div>
+}

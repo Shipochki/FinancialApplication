@@ -5,5 +5,7 @@
 		Task CreateCategoryAsync(CategoryDto category);
 
 		List<CategoryDto> GetAllCategories(string userExternalId);
+
+		Task<CategoryDto> GetCategoryByIdAsync(string categoryId, string userExternalId);
 	}
 }

@@ -1,6 +1,7 @@
 ﻿namespace FinancialApplication.Api.Controllers
 {
-    using FinancialApplication.Api.DTOs.Transaction;
+	using FinancialApplication.Api.DTOs.Category;
+	using FinancialApplication.Api.DTOs.Transaction;
     using FinancialApplication.Application.Services.AccountService;
 	using FinancialApplication.Application.Services.CategoryService;
 	using FinancialApplication.Application.Services.TransactionService;
@@ -39,6 +40,31 @@
             });
 
             return Created();
+        }
+
+        [HttpGet]
+        [Route("[action]/{transactionId}")]
+        public async Task<GetTransactionDetailsDto> GetTransactionDetails(string transactionId)
+        {
+            TransactionDto transaction = await TransactionService.GetTransactionByIdAsync(transactionId);
+            CategoryDto category = await CategoryService.GetCategoryByIdAsync(transaction.CategoryId, User.GetUserId());
+
+            return new GetTransactionDetailsDto()
+            {
+                Id = transaction.Id,
+                Type = transaction.Type,
+                Amount = transaction.Amount,
+                Date = transaction.Date.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                Description = transaction.Description,
+                AccountId = transaction.AccountId,
+                Category = new GetCategoryDto()
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    Description = category.Description,
+                    Icon = category.Icon,
+                }
+            };
         }
     }
 }

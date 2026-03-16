@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { CreateTransactionDto } from "../../shared/models/transaction.model";
+import { CreateTransactionDto, GetTransactionDetailsDto } from "../../shared/models/transaction.model";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -14,4 +15,7 @@ export class TransactionService {
         return this.http.post(`${this.apiUrl}/createTransaction`, transaction);
     }
 
+    getTransactionDetails(transactionId: string): Observable<GetTransactionDetailsDto>{
+        return this.http.get<GetTransactionDetailsDto>(`${this.apiUrl}/getTransactionDetails/${transactionId}`)
+    }
 }
