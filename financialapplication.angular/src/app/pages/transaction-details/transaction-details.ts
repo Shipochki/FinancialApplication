@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,7 +32,7 @@ export class TransactionDetails implements OnInit {
   transactionId = signal('');
 
   private route = inject(ActivatedRoute);
-  // private router = inject(Router);
+  private router = inject(Router);
   private transactionService = inject(TransactionService);
 
   ngOnInit(): void {
@@ -67,7 +67,7 @@ export class TransactionDetails implements OnInit {
   onEdit(): void {
     if (this.transaction) {
       console.log(`Maps to edit form for: ${this.transaction.id}`);
-      // this.router.navigate(['/transaction/edit', this.transaction.id]);
+      this.router.navigate(['/edit-transaction', this.transaction.id]);
     }
   }
 

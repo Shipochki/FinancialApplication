@@ -2,11 +2,11 @@
   <h2>Create Transaction</h2>
 
   @if (!accountId()) {
-    <div class="error-banner">Error: No Account ID provided in the URL.</div>
+  <div class="error-banner">Error: No Account ID provided in the URL.</div>
   }
 
   <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" class="transaction-form">
-    
+
     <mat-form-field appearance="outline">
       <mat-label>Type</mat-label>
       <mat-select formControlName="type">
@@ -25,18 +25,16 @@
       <mat-label>Category</mat-label>
       <mat-select formControlName="categoryId">
         <mat-select-trigger>
-          @if (transactionForm.get('categoryId')?.value) {
-            {{ transactionForm.get('categoryId')?.value }}
-          }
+          {{ getSelectedCategoryName() }}
         </mat-select-trigger>
-        
+
         @for (category of categories; track category.id) {
-          <mat-option [value]="category.id">
-            <div class="category-option">
-              <mat-icon>{{ category.icon }}</mat-icon>
-              <span>{{ category.name }}</span>
-            </div>
-          </mat-option>
+        <mat-option [value]="category.id">
+          <div class="category-option">
+            <mat-icon>{{ category.icon }}</mat-icon>
+            <span>{{ category.name }}</span>
+          </div>
+        </mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -53,7 +51,7 @@
       <textarea matInput formControlName="description" rows="3" placeholder="Optional notes..."></textarea>
       <mat-hint align="end">{{ transactionForm.get('description')?.value?.length || 0 }} / 200</mat-hint>
       @if(transactionForm.get('description')?.hasError('maxlength')){
-        <mat-error>Max 200 characters</mat-error>
+      <mat-error>Max 200 characters</mat-error>
       }
     </mat-form-field>
 

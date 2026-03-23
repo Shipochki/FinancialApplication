@@ -91,9 +91,23 @@
             return TransactionDto.TransactionToTransactionDto(transaction);
         }
 
-        public Task UpdateTransactionAsync(TransactionDto transactionDto)
+        public async Task UpdateTransactionAsync(TransactionDto transactionDto)
         {
-            throw new NotImplementedException();
-        }
+			Transaction? transaction = await Repository
+				.FirstOrDefaultAsync<Transaction>(t => t.Id == Guid.Parse(transactionDto.Id));
+
+			if (transaction == null)
+			{
+				throw new ArgumentNullException($"{nameof(TransactionService)} - {nameof(GetTransactionByIdAsync)} - {nameof(Transaction)} not found");
+			}
+
+            transaction.Amount = transactionDto.Amount;
+            transaction.Date = transactionDto.Date;
+            transaction.Description = transactionDto.Description;
+            transaction.Type = (TypeTransaction)transactionDto.Type;
+            transaction.ModifiedOn = DateTime.UtcNow;
+
+			await Repository.SaveChangesAsync();
+		}
     }
 }

@@ -28,3 +28,13 @@ export interface GetTransactionDetailsDto{
     accountId: string;
     category: GetCategoryDto
 }
+
+export interface EditTransactionDto {
+    id: string;
+    type: number;
+    amount: number;
+    date: string; // ISO format
+    description?: string;
+    categoryId: string;
+    accountId: string;
+}

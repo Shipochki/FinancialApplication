@@ -28,13 +28,47 @@
   gap: 12px;
 }
 
+/* Target the mat-card */
 .tx-card {
-  border-radius: 12px;
-  transition: background-color 0.2s ease;
+  position: relative; /* Required to keep the absolute overlay inside the card */
+  cursor: pointer;    /* Changes the cursor to a pointing hand */
+  overflow: hidden;   /* Prevents the overlay from spilling outside rounded corners */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 
+  /* The Hover State */
   &:hover {
-    background-color: rgba(0, 0, 0, 0.02);
+    transform: translateY(-2px); /* Optional: Gives a friendly "lift" effect */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    .hover-overlay {
+      opacity: 1; /* Reveals the "Open Details" text */
+    }
   }
+}
+
+/* The Overlay Styling */
+.hover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent white background */
+  backdrop-filter: blur(2px); /* Optional: lightly blurs the text underneath */
+  
+  /* Centers the text */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.2s ease-in-out;
+  z-index: 10; /* Ensures it sits on top of the card content */
+  
+  /* Text Styling */
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: #3f51b5; /* Update this hex to match your app's primary theme color */
 }
 
 .tx-content {

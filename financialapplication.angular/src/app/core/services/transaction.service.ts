@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { CreateTransactionDto, GetTransactionDetailsDto, GetTransactionDto } from "../../shared/models/transaction.model";
+import { CreateTransactionDto, EditTransactionDto, GetTransactionDetailsDto, GetTransactionDto } from "../../shared/models/transaction.model";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -28,5 +28,9 @@ export class TransactionService {
             .set('pageSize', pageSize.toString());
 
         return this.http.get<GetTransactionDto[]>(url, { params });
+    }
+
+    editTransaction(transaction: EditTransactionDto) {
+        return this.http.post(`${this.apiUrl}/UpdateTransaction`, transaction);
     }
 }

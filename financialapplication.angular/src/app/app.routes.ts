@@ -1,13 +1,12 @@
-// app.routes.ts
 import { Routes } from '@angular/router';
 import { HomePageComponent } from './pages/home-page-component/home-page-component';
 import { CreateAccount } from './pages/create-account/create-account';
-// import { authGuard } from './core/guard/auth.guard';
 import { MsalGuard } from '@azure/msal-angular';
 import { Account } from './pages/account/account';
 import { CreateTransaction } from './pages/create-transaction/create-transaction';
 import { TransactionDetails } from './pages/transaction-details/transaction-details';
 import { Transactions } from './pages/transactions/transactions';
+import { EditTransaction } from './pages/edit-transaction/edit-transaction';
 
 export const routes: Routes = [
   { 
@@ -21,6 +20,11 @@ export const routes: Routes = [
   { 
     path: 'create-account', 
     component: CreateAccount,
+    canActivate: [MsalGuard]
+  },
+  {
+    path: 'edit-transaction/:transactionId',
+    component: EditTransaction,
     canActivate: [MsalGuard]
   },
   {

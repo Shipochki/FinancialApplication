@@ -77,6 +77,12 @@ export class CreateTransaction implements OnInit {
     }
   }
 
+  getSelectedCategoryName(): string {
+    const selectedId = this.transactionForm.get('categoryId')?.value;
+    const category = this.categories.find(c => c.id === selectedId);
+    return category ? category.name : 'Select a category';
+  }
+
   onSubmit(): void {
     if (this.transactionForm.invalid || !this.accountId()) {
       return;

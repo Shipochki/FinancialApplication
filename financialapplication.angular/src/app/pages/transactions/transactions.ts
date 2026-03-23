@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,6 +22,7 @@ import { GlobalAuthService } from '../../core/services/GlobalAuthService';
 })
 export class Transactions implements OnInit {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private transactionService = inject(TransactionService);
   private authService = inject(GlobalAuthService);
 
@@ -90,5 +91,9 @@ export class Transactions implements OnInit {
     if (position <= target.clientHeight + threshold) {
       this.loadTransactions();
     }
+  }
+
+  onClickTransaction(transactionId: string): void {
+    this.router.navigate([`/transaction/${transactionId}`]);
   }
 }

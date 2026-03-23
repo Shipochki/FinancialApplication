@@ -86,5 +86,23 @@
 				})
 				.ToList();
 		}
+
+		[HttpPost]
+		[Route("[action]")]
+		public async Task<IActionResult> UpdateTransaction([FromBody] EditTransactionDto request)
+		{
+			Validator.ValidateObject(request, new ValidationContext(request), true);
+			await TransactionService.UpdateTransactionAsync(new TransactionDto()
+			{
+				Id = request.Id,
+				Type = request.Type,
+				Amount = request.Amount,
+				Date = DateTime.Parse(request.Date),
+				Description = request.Description,
+				CategoryId = request.CategoryId,
+				AccountId = request.AccountId
+			});
+			return NoContent();
+		}
 	}
 }
