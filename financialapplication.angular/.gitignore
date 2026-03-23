@@ -46,3 +46,4 @@ Thumbs.db
 # Local configuration (contains client IDs etc.)
 /src/app/app.config.ts
 /src/app/core/interceptors/auth.interceptor.ts
+/src/app/environment/environment.local.ts

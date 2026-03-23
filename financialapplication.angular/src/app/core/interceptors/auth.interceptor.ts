@@ -2,17 +2,18 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
 import { from, switchMap, catchError } from 'rxjs';
+import { environment } from '../../environment/environment.local';
 
 export const customAuthInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(MsalService);
 
   // 1. Check if the request is going to your .NET API
-  if (req.url.startsWith('https://localhost:7287')) {
+  if (req.url.startsWith(environment.apiUrl)) {
     console.log('Interceptor caught the request to:', req.url);
 
     // 2. Grab the token silently
     return from(authService.instance.acquireTokenSilent({
-      scopes: ['api://ae84d976-7f16-4602-ac6c-03763dffdc41/access_as_user'],
+      scopes: [environment.apiScope],
       account: authService.instance.getAllAccounts()[0]
     })).pipe(
       switchMap((result) => {

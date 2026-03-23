@@ -17,13 +17,14 @@ import { PublicClientApplication, InteractionType } from '@azure/msal-browser';
 import { isPlatformBrowser } from '@angular/common';
 import { GlobalAuthService } from './core/services/GlobalAuthService';
 import { customAuthInterceptor } from './core/interceptors/auth.interceptor';
+import { environment } from './environment/environment.local';
 
 export function MSALInstanceFactory(): PublicClientApplication {
   return new PublicClientApplication({
     auth: {
-      clientId: '58d6649d-1da9-4e54-ae09-7baaab4295c0',
-      authority: 'https://login.microsoftonline.com/b33db19b-a796-4c7d-9549-b574317ff389',
-      redirectUri: 'http://localhost:4200',
+      clientId: environment.frontClientId,
+      authority: environment.authority,
+      redirectUri: environment.frontUrl,
     },
     cache: {
       cacheLocation: 'localStorage'
@@ -37,7 +38,7 @@ export function MSALInstanceFactory(): PublicClientApplication {
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
   // Attach the token only to API requests matching this URL
-  protectedResourceMap.set('https://localhost:7287/', ['api://ae84d976-7f16-4602-ac6c-03763dffdc41/access_as_user']);
+  protectedResourceMap.set(environment.apiUrl, [environment.apiScope]);
   console.log('Protected Resource Map:', protectedResourceMap);
   return {
     interactionType: InteractionType.Redirect,
@@ -49,7 +50,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
     authRequest: {
-      scopes: ['api://ae84d976-7f16-4602-ac6c-03763dffdc41/access_as_user']
+      scopes: [environment.apiScope]
     }
   };
 }
