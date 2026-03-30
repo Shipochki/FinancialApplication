@@ -43,16 +43,34 @@
             await Repository.AddAsync(transaction);
             await Repository.SaveChangesAsync();        }
 
-        public Task DeleteTransactionAsync(string transactionId)
+        public async Task DeleteTransactionAsync(string transactionId)
         {
-            throw new NotImplementedException();
-        }
+			Transaction? transaction = await Repository
+							.FirstOrDefaultAsync<Transaction>(t => t.Id == Guid.Parse(transactionId));
+
+			if (transaction == null)
+			{
+				throw new ArgumentNullException($"{nameof(TransactionService)} - {nameof(GetTransactionByIdAsync)} - {nameof(Transaction)} not found");
+			}
+
+			Account? account = await Repository.GetByIdAsync<Account>(transaction.AccountId);
+
+			if (account == null)
+			{
+				throw new ArgumentNullException($"{nameof(TransactionService)} - {nameof(GetTransactionByIdAsync)} - {nameof(Account)} not found");
+			}
+
+            account.Balance -= transaction.Type == TypeTransaction.Income ? transaction.Amount : -transaction.Amount;
+			transaction.IsDeleted = true;
+
+            await Repository.SaveChangesAsync();
+		}
 
 		public List<TransactionDto> GetAllTransactionsForScroll(string accountId, int skip, int pageSize)
 		{
             List<TransactionDto> transactions = Repository
                 .All<Transaction>()
-                .Where(t => t.AccountId == Guid.Parse(accountId))
+                .Where(t => t.AccountId == Guid.Parse(accountId) && t.IsDeleted == false)
                 .OrderByDescending(t => t.Date)
                 .Skip(skip)
                 .Take(pageSize)
@@ -71,7 +89,7 @@
             }
 
             return Repository.All<Transaction>()
-                .Where(t => t.AccountId == account.Id)
+                .Where(t => t.AccountId == account.Id && t.IsDeleted == false)
                 .OrderByDescending(t => t.Date)
                 .Take(number)
                 .Select(t => TransactionDto.TransactionToTransactionDto(t))
@@ -81,7 +99,7 @@
         public async Task<TransactionDto> GetTransactionByIdAsync(string transactionId)
         {
             Transaction? transaction = await Repository
-                .FirstOrDefaultAsync<Transaction>(t => t.Id == Guid.Parse(transactionId));
+                .FirstOrDefaultAsync<Transaction>(t => t.Id == Guid.Parse(transactionId) && t.IsDeleted == false);
 
             if (transaction == null)
             {
@@ -100,6 +118,36 @@
 			{
 				throw new ArgumentNullException($"{nameof(TransactionService)} - {nameof(GetTransactionByIdAsync)} - {nameof(Transaction)} not found");
 			}
+
+            Account? account = await Repository.GetByIdAsync<Account>(transaction.AccountId);
+
+			if (account == null)
+			{
+				throw new ArgumentNullException($"{nameof(TransactionService)} - {nameof(GetTransactionByIdAsync)} - {nameof(Account)} not found");
+			}
+
+            if(transactionDto.Amount > transaction.Amount) 
+            { 
+                if(transactionDto.Type == (int)TypeTransaction.Income)
+                {
+                    account.Balance += transactionDto.Amount - transaction.Amount;
+                }
+                else
+                {
+                    account.Balance -= transactionDto.Amount - transaction.Amount;
+                }
+            }
+            else if(transactionDto.Amount < transaction.Amount)
+            {
+                if(transactionDto.Type == (int)TypeTransaction.Income)
+                {
+                    account.Balance -= transaction.Amount - transactionDto.Amount;
+                }
+                else
+                {
+                    account.Balance += transaction.Amount - transactionDto.Amount;
+                }
+            }
 
             transaction.Amount = transactionDto.Amount;
             transaction.Date = transactionDto.Date;

@@ -33,4 +33,8 @@ export class TransactionService {
     editTransaction(transaction: EditTransactionDto) {
         return this.http.post(`${this.apiUrl}/UpdateTransaction`, transaction);
     }
+
+    deleteTransaction(transactionId: string){
+        return this.http.delete(`${this.apiUrl}/DeleteTransaction/${transactionId}`);
+    }
 }

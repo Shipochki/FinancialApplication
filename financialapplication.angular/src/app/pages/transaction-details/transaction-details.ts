@@ -9,6 +9,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { GetTransactionDetailsDto } from '../../shared/models/transaction.model';
 import { TransactionService } from '../../core/services/transaction.service';
 import { GlobalAuthService } from '../../core/services/GlobalAuthService';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialog } from '../../shared/components/confirm-dialog/confirm-dialog';
 // Adjust the import path based on your folder structure
 
 @Component({
@@ -34,6 +36,7 @@ export class TransactionDetails implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private transactionService = inject(TransactionService);
+  private dialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.fetchTransactionDetails();
@@ -73,8 +76,30 @@ export class TransactionDetails implements OnInit {
 
   onDelete(): void {
     if (this.transaction) {
-      console.log(`Trigger delete confirmation for: ${this.transaction.id}`);
-      // Implement delete logic / dialog here
+      // 1. Open the dialog
+      const dialogRef = this.dialog.open(ConfirmDialog, {
+        width: '400px',
+        disableClose: true 
+      });
+
+      // 2. Handle the result when closed
+      dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+        if (confirmed && this.transactionId()) {
+          
+          // 3. Trigger the delete service call
+          this.transactionService.deleteTransaction(this.transactionId()).subscribe({
+            next: () => {
+              console.log('Transaction deleted successfully');
+              // Navigate back to the transaction list after deletion
+              this.router.navigate(['/transactions']); // Adjust this route to your actual list route
+            },
+            error: (err) => {
+              console.error('Error deleting transaction', err);
+              // Optional: You could add a MatSnackBar here to show the user an error occurred
+            }
+          });
+        }
+      });
     }
   }
 }

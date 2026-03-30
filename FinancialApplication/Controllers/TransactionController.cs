@@ -104,5 +104,13 @@
 			});
 			return NoContent();
 		}
+
+		[HttpDelete]
+		[Route("[action]/{transactionId}")]
+		public async Task<IActionResult> DeleteTransaction(string transactionId)
+		{
+			await TransactionService.DeleteTransactionAsync(transactionId);
+			return NoContent();
+		}
 	}
 }
