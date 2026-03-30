@@ -11,7 +11,8 @@ import { MatListModule } from '@angular/material/list';
 import { GlobalAuthService } from '../../core/services/GlobalAuthService';
 import { GetAccountDetailsDto } from '../../shared/models/account.model';
 import { TransactionCard } from '../../shared/components/transaction-card/transaction-card';
- 
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu'; 
 
 @Component({
   selector: 'app-account',
@@ -23,7 +24,9 @@ import { TransactionCard } from '../../shared/components/transaction-card/transa
     MatButtonModule,
     MatDividerModule,
     MatListModule,
-    TransactionCard
+    TransactionCard,
+    MatIconModule,
+    MatMenuModule
 ],
   templateUrl: './account.html',
   styleUrl: './account.css',
@@ -56,4 +59,10 @@ export class Account implements OnInit {
   toTransactions(){
     this.routeNavigator.navigate([`/transactions/${this.accountId()}`])
   }
+
+  editAccount(){
+    this.routeNavigator.navigate([`/edit-account/${this.accountId()}`])
+  }
+
+  deleteAccount(){}
 }

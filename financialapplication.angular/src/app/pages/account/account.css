@@ -58,3 +58,35 @@
   gap: 16px;
   color: #666;
 }
+
+.account-page-container {
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.account-card {
+  width: 100%;
+  max-width: 600px; /* Prevents the card from stretching too wide */
+}
+
+.account-info {
+  margin-bottom: 16px;
+}
+
+.transactions-header {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+/* New styles for the fixed action bar */
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Adds space between the buttons */
+  padding: 8px 16px;
+}
+
+.spacer {
+  flex: 1 1 auto; /* This pushes the more_vert icon to the far right */
+}

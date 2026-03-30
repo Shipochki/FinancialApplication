@@ -1,40 +1,55 @@
 <div class="account-page-container">
-  @if(account() !== null){
-  <mat-card class="account-card">
-    <mat-card-header>
-      <mat-card-title>{{ account().name }}</mat-card-title>
-    </mat-card-header>
+  @if (account() !== null) {
+    <mat-card class="account-card">
+      <mat-card-header>
+        <mat-card-title>{{ account().name }}</mat-card-title>
+      </mat-card-header>
 
-    <mat-card-content>
-      <div class="account-info">
-        <p><strong>Balance:</strong> {{ account().balance | currency }}</p>
+      <mat-card-content>
+        <div class="account-info">
+          <p><strong>Balance:</strong> {{ account().balance | currency }}</p>
 
-        @if (account().description) {
-        <p><strong>Description:</strong> {{ account().description }}</p>
-        }
-      </div>
+          @if (account().description) {
+            <p><strong>Description:</strong> {{ account().description }}</p>
+          }
+        </div>
 
-      <mat-divider></mat-divider>
+        <mat-divider></mat-divider>
 
-      <h3 class="transactions-header">Recent Transactions</h3>
+        <h3 class="transactions-header">Recent Transactions</h3>
 
-      <mat-list>
-        @for (transaction of account().transactionDtos | slice:0:3; track transaction.id) {
-          <app-transaction-card [transaction]="transaction"></app-transaction-card>
-        } @empty {
-        <p class="no-data">No transactions found.</p>
-        }
-      </mat-list>
-      <mat-card-actions>
-      <button mat-flat-button color="primary" (click)="toTransactions()">View All</button>
-    </mat-card-actions>
-    </mat-card-content>
+        <mat-list>
+          @for (transaction of account().transactionDtos | slice: 0 : 3; track transaction.id) {
+            <app-transaction-card [transaction]="transaction"></app-transaction-card>
+          } @empty {
+            <p class="no-data">No transactions found.</p>
+          }
+        </mat-list>
+      </mat-card-content>
 
-    <mat-card-actions>
-      <button mat-flat-button color="primary" (click)="toAddTransaction()">Add Transaction</button>
-    </mat-card-actions>
-  </mat-card>
-  } @else {
+      <mat-card-actions class="card-actions">
+        <button mat-flat-button color="primary" (click)="toAddTransaction()">
+          Add Transaction
+        </button>
+        <button mat-stroked-button color="primary" (click)="toTransactions()">View All</button>
 
-  }
+        <span class="spacer"></span>
+
+        <button mat-icon-button [matMenuTriggerFor]="accountMenu" aria-label="Account options">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #accountMenu="matMenu" xPosition="before">
+          <button mat-menu-item (click)="editAccount()">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="deleteAccount()">
+            <mat-icon color="warn">delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+      </mat-card-actions>
+    </mat-card>
+  } @else {}
 </div>

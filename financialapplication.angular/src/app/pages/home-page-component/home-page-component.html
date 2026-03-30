@@ -1,107 +1,183 @@
 <div class="home-container">
-  <!-- Not logged in message -->
-  @if(!isLoading() && !authService.isLoggedIn()){
-  <div class="not-logged-in-state">
-    <mat-icon class="empty-icon">lock</mat-icon>
-    <h2>Please sign in to view your accounts</h2>
-    <p>You need to log in or register before you can access your financial data.</p>
-    <div class="auth-btn-group">
-      <button mat-stroked-button color="primary" (click)="authService.login()">
-        <mat-icon>login</mat-icon>
-        Sign In
-      </button>
-      <button mat-flat-button color="accent" (click)="authService.register()">
-        <mat-icon>person_add</mat-icon>
-        Register
+  @if (!isLoading() && !authService.isLoggedIn()) {
+    <div class="landing-page-state">
+      <div class="hero-section">
+        <div class="hero-content">
+          <h1>Finance made super friendly.</h1>
+          <p>
+            Track your money flow seamlessly across multiple countries and currencies. Join
+            today—it's completely free for your first year, and your data stays yours.
+          </p>
+
+          <div class="auth-btn-group centered">
+            <button
+              mat-flat-button
+              color="primary"
+              class="hero-btn"
+              (click)="authService.register()"
+            >
+              <mat-icon>person_add</mat-icon>
+              Get Started
+            </button>
+            <button
+              mat-stroked-button
+              color="primary"
+              class="hero-btn-outline"
+              (click)="authService.login()"
+            >
+              <mat-icon>login</mat-icon>
+              Sign In
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-image">
+          <img
+            src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800&h=600"
+            alt="Friendly Finance Tracking"
+          />
+        </div>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <mat-icon color="primary">public</mat-icon>
+          <h3>Global Ready</h3>
+          <p>Manage your balances in multiple currencies without the headache.</p>
+        </div>
+        <div class="feature-card">
+          <mat-icon color="accent">mood</mat-icon>
+          <h3>Simple & Clear</h3>
+          <p>No complex jargon. Just a clean, easy way to see your money flow.</p>
+        </div>
+        <div class="feature-card">
+          <mat-icon color="warn">security</mat-icon>
+          <h3>Your Data, Your Rules</h3>
+          <p>We believe in privacy. You're always in control of your information.</p>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (isLoading()) {
+    <app-loading-indicator></app-loading-indicator>
+  }
+
+  @if (authService.isLoggedIn() && !isLoading() && accounts().length === 0) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">account_balance</mat-icon>
+      <h2>No Accounts Found</h2>
+      <p>Start tracking your money flow by creating your first account.</p>
+      <button
+        mat-flat-button
+        color="primary"
+        class="create-account-btn"
+        routerLink="/create-account"
+      >
+        <mat-icon>add</mat-icon>
+        Create Account
       </button>
     </div>
-  </div>
-  }
-
-  <!-- Loading State -->
-  @if(isLoading()){
-  <app-loading-indicator></app-loading-indicator>
-  }
-
-  <!-- Empty State -->
-  @if(authService.isLoggedIn() && !isLoading() && accounts().length === 0){
-  <div class="empty-state">
-    <mat-icon class="empty-icon">account_balance</mat-icon>
-    <h2>No Accounts Found</h2>
-    <p>Start tracking your money flow by creating your first account.</p>
-    <button mat-flat-button color="primary" class="create-account-btn" routerLink="/create-account">
-      <mat-icon>add</mat-icon>
-      Create Account
-    </button>
-  </div>
   }
 
   <!-- Accounts Carousel -->
-  @if(authService.isLoggedIn() && !isLoading() && accounts().length > 0){
-  <div class="carousel-section">
-    <div class="carousel-header">
-      <h1>Your Accounts</h1>
-      <p class="subtitle">Manage and monitor your financial accounts</p>
-    </div>
 
-    <div class="carousel-container">
-      <button mat-icon-button class="nav-btn nav-prev" (click)="prevAccount()" [disabled]="currentIndex() === 0"
-        aria-label="Previous account">
-        <mat-icon>chevron_left</mat-icon>
-      </button>
+  @if (authService.isLoggedIn() && !isLoading() && accounts().length > 0) {
+    <div class="carousel-section">
+      <div class="carousel-header">
+        <h1>Your Accounts</h1>
 
-      <div class="account-card-wrapper">
-        <mat-card class="account-card" (click)="onClickCard(accounts()[currentIndex()].id)">
-          <mat-card-header>
-            <div class="card-header-content">
-              <h2 class="account-name">{{ accounts()[currentIndex()].name }}</h2>
-              <span class="account-index">{{ currentIndex() + 1 }} of {{ accounts().length }}</span>
-            </div>
-          </mat-card-header>
+        <p class="subtitle">Manage and monitor your financial accounts</p>
+      </div>
 
-          <mat-card-content>
-            <div class="balance-section">
-              <p class="balance-label">Account Balance</p>
-              <div class="balance-display">
-                {{ accounts()[currentIndex()].balance | currency: getCurrencyCode(accounts()[currentIndex()].currency)
-                }}
+      <div class="carousel-container">
+        <button
+          mat-icon-button
+          class="nav-btn nav-prev"
+          (click)="prevAccount()"
+          [disabled]="currentIndex() === 0"
+          aria-label="Previous account"
+        >
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+
+        <div class="account-card-wrapper">
+          <mat-card class="account-card" (click)="onClickCard(accounts()[currentIndex()].id)">
+            <mat-card-header>
+              <div class="card-header-content">
+                <h2 class="account-name">{{ accounts()[currentIndex()].name }}</h2>
+
+                <span class="account-index"
+                  >{{ currentIndex() + 1 }} of {{ accounts().length }}</span
+                >
               </div>
-            </div>
+            </mat-card-header>
 
-            <div class="description-section">
-              <p class="description">
-                {{ accounts()[currentIndex()].description || 'No description provided.' }}
-              </p>
-            </div>
-          </mat-card-content>
-        </mat-card>
+            <mat-card-content>
+              <div class="balance-section">
+                <p class="balance-label">Account Balance</p>
+
+                <div class="balance-display">
+                  {{
+                    accounts()[currentIndex()].balance
+                      | currency: getCurrencyCode(accounts()[currentIndex()].currency)
+                  }}
+                </div>
+              </div>
+
+              <div class="description-section">
+                <p class="description">
+                  {{ accounts()[currentIndex()].description || 'No description provided.' }}
+                </p>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <button
+          mat-icon-button
+          class="nav-btn nav-next"
+          (click)="nextAccount()"
+          [disabled]="currentIndex() === accounts().length - 1"
+          aria-label="Next account"
+        >
+          <mat-icon>chevron_right</mat-icon>
+        </button>
       </div>
 
-      <button mat-icon-button class="nav-btn nav-next" (click)="nextAccount()"
-        [disabled]="currentIndex() === accounts().length - 1" aria-label="Next account">
-        <mat-icon>chevron_right</mat-icon>
+      <!-- Pagination Indicator -->
+
+      @if (authService.isLoggedIn() && accounts().length > 1) {
+        <div class="pagination-indicator">
+          <div class="pagination-text">
+            <span class="current-page">{{ currentIndex() + 1 }}</span>
+
+            <span class="separator">/</span>
+
+            <span class="total-pages">{{ accounts().length }}</span>
+          </div>
+
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              [style.width.%]="((currentIndex() + 1) / accounts().length) * 100"
+            ></div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div>
+      <button
+        mat-flat-button
+        color="primary"
+        class="create-account-btn"
+        routerLink="/create-account"
+      >
+        <mat-icon>add</mat-icon>
+
+        Create Account
       </button>
     </div>
-
-    <!-- Pagination Indicator -->
-    @if(authService.isLoggedIn() && accounts().length > 1){
-    <div class="pagination-indicator">
-      <div class="pagination-text">
-        <span class="current-page">{{ currentIndex() + 1 }}</span>
-        <span class="separator">/</span>
-        <span class="total-pages">{{ accounts().length }}</span>
-      </div>
-      <div class="progress-bar">
-        <div class="progress-fill" [style.width.%]="((currentIndex() + 1) / accounts().length) * 100"></div>
-      </div>
-    </div>
-    }
-  </div>
-  <div>
-    <button mat-flat-button color="primary" class="create-account-btn" routerLink="/create-account">
-      <mat-icon>add</mat-icon>
-      Create Account
-    </button>
-  </div>
   }
 </div>
