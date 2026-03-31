@@ -11,7 +11,7 @@
 
         public async Task SyncUserAsync(UserDto userDto)
         {
-            User? user = GetUserByExternalIdAsync(userDto.ExternalIdentityId);
+            User? user = GetUserByExternalId(userDto.ExternalIdentityId);
 
             if (user == null)
             {
@@ -37,7 +37,7 @@
 
         public Task DeleteUserAsync(string externalIdentityId)
         {
-            User? user = GetUserByExternalIdAsync(externalIdentityId);
+            User? user = GetUserByExternalId(externalIdentityId);
             if (user != null)
             {
                 user.FirstName = null;
@@ -51,7 +51,7 @@
             return Task.CompletedTask;
         }
 
-        public User? GetUserByExternalIdAsync(string externalIdentityId)
+        public User? GetUserByExternalId(string externalIdentityId)
         {
             return Repository
                 .All<User>()

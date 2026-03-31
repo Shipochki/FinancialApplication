@@ -17,7 +17,7 @@
 
         public async Task CreateAccountAsync(AccountDto request)
         {
-            User? owner = _userService.GetUserByExternalIdAsync(request.OwnerId);
+            User? owner = _userService.GetUserByExternalId(request.OwnerId);
             
             if (owner == null)
             {
@@ -48,7 +48,7 @@
                 throw new Exception("Account not found");
             }
 
-            User? user = _userService.GetUserByExternalIdAsync(externalUserId);
+            User? user = _userService.GetUserByExternalId(externalUserId);
 
             if(user == null || account.OwnerId != user.Id)
             {
@@ -69,7 +69,7 @@
                 throw new Exception("Account not found");
             }
 
-			User? user = _userService.GetUserByExternalIdAsync(externalUserId);
+			User? user = _userService.GetUserByExternalId(externalUserId);
 
 			if (user == null || account.OwnerId != user.Id)
 			{
@@ -91,7 +91,7 @@
 
         public IEnumerable<AccountDto> GetAccountsByOwnerId(string externalIdentityId)
         {
-            User? user = _userService.GetUserByExternalIdAsync(externalIdentityId);
+            User? user = _userService.GetUserByExternalId(externalIdentityId);
 
             return Repository
                 .All<Account>()
@@ -109,7 +109,7 @@
                 throw new Exception("Account not found");
             }
 
-			User? user = _userService.GetUserByExternalIdAsync(externalUserId);
+			User? user = _userService.GetUserByExternalId(externalUserId);
 
 			if (user == null || account.OwnerId != user.Id)
 			{

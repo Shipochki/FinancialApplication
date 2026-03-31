@@ -22,7 +22,7 @@
         }
 
         [HttpGet]
-		[Route("[action]")]
+        [Route("[action]")]
         public List<GetCategoryDto> GetAllCategories()
         {
             List<GetCategoryDto> result = CategoryService
@@ -38,5 +38,40 @@
 
             return result;
         }
-	}
+
+        [HttpDelete]
+        [Route("[action]/{categoryId}")]
+        public async Task<IActionResult> DeleteCategory(string categoryId)
+        {
+            await CategoryService.DeleteCategoryAsync(categoryId, this.User.GetUserId());
+            return NoContent();
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto request)
+        {
+            await CategoryService.CreateCategoryByUserAsync(new CategoryDto
+            {
+                Name = request.Name,
+                Description = request.Description,
+                Icon = request.Icon
+            }, this.User.GetUserId());
+            return Created();
+        }
+
+        [HttpPut]
+        [Route("[action]")]
+        public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryDto request)
+        {
+            await CategoryService.UpdateCategoryAsync(new CategoryDto
+            {
+                Id = request.Id,
+                Name = request.Name,
+                Description = request.Description,
+                Icon = request.Icon
+            }, this.User.GetUserId());
+            return NoContent();
+        }
+    }
 }

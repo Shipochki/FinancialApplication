@@ -4,7 +4,7 @@
 
     public interface IUserService
     {
-        public User? GetUserByExternalIdAsync(string externalIdentityId);
+        public User? GetUserByExternalId(string externalIdentityId);
 
         public Task SyncUserAsync(UserDto userDto);
 
