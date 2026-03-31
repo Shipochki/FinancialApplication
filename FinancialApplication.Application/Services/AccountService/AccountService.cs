@@ -39,26 +39,29 @@
             await Repository.SaveChangesAsync();
         }
 
-        public Task DeleteAccountAsync(string accountId)
+        public Task DeleteAccountAsync(string accountId, string externalUserId)
         {
-            //Get User and check if it is the owner of the account, if not throw exception
-
-            Account? account = Repository.GetByIdAsync<Account>(Guid.Parse(accountId)).Result;
+			Account? account = Repository.GetByIdAsync<Account>(Guid.Parse(accountId)).Result;
 
             if (account == null)
             {
                 throw new Exception("Account not found");
             }
 
-            account.IsDeleted = true;
+            User? user = _userService.GetUserByExternalIdAsync(externalUserId);
+
+            if(user == null || account.OwnerId != user.Id)
+            {
+                throw new Exception("You are not the owner of this account");
+			}
+
+			account.IsDeleted = true;
             Repository.SaveChangesAsync();
             return Task.CompletedTask;
         }
 
-        public Task<AccountDto> GetAccountByIdAsync(string accountId)
+        public Task<AccountDto> GetAccountByIdAsync(string accountId, string externalUserId)
         {
-            //Get User and check if it is the owner of the account, if not throw exception
-
             Account? account = Repository.GetByIdAsync<Account>(Guid.Parse(accountId)).Result;
 
             if (account == null)
@@ -66,7 +69,14 @@
                 throw new Exception("Account not found");
             }
 
-            AccountDto accountDto = new AccountDto
+			User? user = _userService.GetUserByExternalIdAsync(externalUserId);
+
+			if (user == null || account.OwnerId != user.Id)
+			{
+				throw new Exception("You are not the owner of this account");
+			}
+
+			AccountDto accountDto = new AccountDto
             {
                 Id = account.Id.ToString(),
                 Name = account.Name,
@@ -90,7 +100,7 @@
                 .ToList();
         }
 
-        public async Task UpdateAccountAsync(AccountDto request)
+        public async Task UpdateAccountAsync(AccountDto request, string externalUserId)
         {
             Account? account = Repository.GetByIdAsync<Account>(Guid.Parse(request.Id)).Result;
 
@@ -99,9 +109,13 @@
                 throw new Exception("Account not found");
             }
 
-            //Get User and check if it is the owner of the account, if not throw exception
+			User? user = _userService.GetUserByExternalIdAsync(externalUserId);
 
-            account.Name = request.Name;
+			if (user == null || account.OwnerId != user.Id)
+			{
+				throw new Exception("You are not the owner of this account");
+			}
+			account.Name = request.Name;
             account.Balance = request.Balance;
             account.Description = request.Description;
             account.Currency = (Currency)request.Currency;

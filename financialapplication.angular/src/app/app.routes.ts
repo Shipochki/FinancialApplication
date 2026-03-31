@@ -7,48 +7,54 @@ import { CreateTransaction } from './pages/create-transaction/create-transaction
 import { TransactionDetails } from './pages/transaction-details/transaction-details';
 import { Transactions } from './pages/transactions/transactions';
 import { EditTransaction } from './pages/edit-transaction/edit-transaction';
+import { EditAccount } from './pages/edit-account/edit-account';
 
 export const routes: Routes = [
-  { 
-    path: '', 
-    component: HomePageComponent 
+  {
+    path: '',
+    component: HomePageComponent,
   },
-  { 
-    path: 'home', 
-    component: HomePageComponent, 
+  {
+    path: 'home',
+    component: HomePageComponent,
   },
-  { 
-    path: 'create-account', 
+  {
+    path: 'create-account',
     component: CreateAccount,
-    canActivate: [MsalGuard]
+    canActivate: [MsalGuard],
   },
   {
     path: 'edit-transaction/:transactionId',
     component: EditTransaction,
-    canActivate: [MsalGuard]
+    canActivate: [MsalGuard],
   },
   {
     path: 'account/:accountId',
     component: Account,
-    canActivate: [MsalGuard]
+    canActivate: [MsalGuard],
+  },
+  {
+    path: 'edit-account/:accountId',
+    component: EditAccount,
+    canActivate: [MsalGuard],
   },
   {
     path: 'add-transaction/:accountId',
     component: CreateTransaction,
-    canActivate: [MsalGuard]
+    canActivate: [MsalGuard],
   },
   {
     path: 'transaction/:transactionId',
     component: TransactionDetails,
-    canActivate: [MsalGuard]
+    canActivate: [MsalGuard],
   },
   {
     path: 'transactions/:accountId',
     component: Transactions,
-    canActivate: [MsalGuard]
+    canActivate: [MsalGuard],
   },
-  { 
-    path: '**', 
-    redirectTo: '' 
-  }
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];

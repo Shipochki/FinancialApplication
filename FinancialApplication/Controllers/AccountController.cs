@@ -62,12 +62,12 @@
         [Route("[action]/{accountId}")]
         public async Task<GetAccountDetailsDto> GetAccountDetails(string accountId, [FromQuery] int transactionLimit = 3)
         {
-            if(string.IsNullOrWhiteSpace(accountId))
+            if (string.IsNullOrWhiteSpace(accountId))
             {
                 throw new ArgumentException("Account ID cannot be null or empty.", nameof(accountId));
             }
 
-            AccountDto account =  await AccountService.GetAccountByIdAsync(accountId);
+            AccountDto account = await AccountService.GetAccountByIdAsync(accountId, this.User.GetUserId());
             List<TransactionDto> transactions = await TransactionService.GetTopTransactionsByAccountId(accountId, transactionLimit);
 
             GetAccountDetailsDto accountDetailsDto = new GetAccountDetailsDto
@@ -91,6 +91,35 @@
             };
 
             return accountDetailsDto;
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> UpdateAccount([FromBody] UpdateAccountDto request)
+        {
+            Validator.ValidateObject(request, new ValidationContext(request), true);
+            await AccountService.UpdateAccountAsync(new AccountDto
+            {
+                Id = request.Id,
+                Balance = request.Balance,
+                Currency = request.Currency,
+                Description = request.Description,
+                Name = request.Name,
+                OwnerId = User.GetUserId()
+            }, User.GetUserId());
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("[action]/{accountId}")]
+        public async Task<IActionResult> DeleteAccount(string accountId)
+        {
+            if (string.IsNullOrWhiteSpace(accountId))
+            {
+                throw new ArgumentException("Account ID cannot be null or empty.", nameof(accountId));
+            }
+            await AccountService.DeleteAccountAsync(accountId, User.GetUserId());
+            return NoContent();
         }
     }
 }

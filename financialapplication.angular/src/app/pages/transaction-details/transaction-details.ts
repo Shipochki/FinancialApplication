@@ -22,10 +22,10 @@ import { ConfirmDialog } from '../../shared/components/confirm-dialog/confirm-di
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
-    MatChipsModule
+    MatChipsModule,
   ],
   templateUrl: './transaction-details.html',
-  styleUrls: ['./transaction-details.css']
+  styleUrls: ['./transaction-details.css'],
 })
 export class TransactionDetails implements OnInit {
   authService = inject(GlobalAuthService);
@@ -43,9 +43,8 @@ export class TransactionDetails implements OnInit {
   }
 
   fetchTransactionDetails(): void {
-
     if (this.authService.isLoggedIn()) {
-      this.route.paramMap.pipe().subscribe(params => {
+      this.route.paramMap.pipe().subscribe((params) => {
         return this.transactionId.set(params.get('transactionId') || '');
       });
 
@@ -58,7 +57,7 @@ export class TransactionDetails implements OnInit {
           error: (err) => {
             console.error('Failed to load transaction details', err);
             this.isLoading.set(false);
-          }
+          },
         });
       } else {
         console.error('No transactionId found in the URL');
@@ -79,13 +78,18 @@ export class TransactionDetails implements OnInit {
       // 1. Open the dialog
       const dialogRef = this.dialog.open(ConfirmDialog, {
         width: '400px',
-        disableClose: true 
+        disableClose: true,
+        // Pass the specific text for this scenario here:
+        data: {
+          title: 'Delete Transaction',
+          message: 'Are you sure you want to permanently delete this transaction?',
+          confirmText: 'Delete Transaction',
+        },
       });
 
       // 2. Handle the result when closed
       dialogRef.afterClosed().subscribe((confirmed: boolean) => {
         if (confirmed && this.transactionId()) {
-          
           // 3. Trigger the delete service call
           this.transactionService.deleteTransaction(this.transactionId()).subscribe({
             next: () => {
@@ -96,7 +100,7 @@ export class TransactionDetails implements OnInit {
             error: (err) => {
               console.error('Error deleting transaction', err);
               // Optional: You could add a MatSnackBar here to show the user an error occurred
-            }
+            },
           });
         }
       });

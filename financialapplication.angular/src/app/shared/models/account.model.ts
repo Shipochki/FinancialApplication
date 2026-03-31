@@ -25,3 +25,11 @@ export interface GetAccountDetailsDto {
   ownerId: string;
   transactionDtos: GetTransactionDto[];
 }
+
+export interface UpdateAccountDto {
+  id: string;
+  name: string;
+  balance: number;
+  description?: string;
+  currency: number; // 0, 1, 2, etc.
+}
