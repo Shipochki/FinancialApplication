@@ -33,7 +33,8 @@
                     Name = c.Name,
                     Description = c.Description,
                     Icon = c.Icon,
-                })
+                    IsGlobal = c.IsGlobal
+				})
                 .ToList();
 
             return result;

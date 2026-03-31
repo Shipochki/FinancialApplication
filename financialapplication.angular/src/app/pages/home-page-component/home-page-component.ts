@@ -27,7 +27,7 @@ import { CurrencyType } from '../../shared/enums/currency-type';
   styleUrls: ['./home-page-component.css'],
 })
 export class HomePageComponent implements OnInit {
-  public authService = inject(GlobalAuthService)
+  public authService = inject(GlobalAuthService);
 
   accounts = signal<GetAccountDto[]>([]);
   currentIndex = signal(0);
@@ -45,7 +45,7 @@ export class HomePageComponent implements OnInit {
         },
         error: () => {
           this.isLoading.set(false);
-        }
+        },
       });
     } else {
       this.isLoading.set(false);
@@ -53,26 +53,26 @@ export class HomePageComponent implements OnInit {
   }
 
   nextAccount() {
-    this.currentIndex.update(i => Math.min(i + 1, this.accounts().length - 1));
+    this.currentIndex.update((i) => Math.min(i + 1, this.accounts().length - 1));
   }
 
   prevAccount() {
-    this.currentIndex.update(i => Math.max(i - 1, 0));
+    this.currentIndex.update((i) => Math.max(i - 1, 0));
   }
 
   getCurrencyCode(type: CurrencyType): string {
-  const currencyMap: Record<CurrencyType, string> = {
-    [CurrencyType.USD]: 'USD',
-    [CurrencyType.EUR]: 'EUR',
-    [CurrencyType.GBP]: 'GBP',
-    [CurrencyType.JPY]: 'JPY',
-    [CurrencyType.AUD]: 'AUD',
-    [CurrencyType.CAD]: 'CAD'
-  };
+    const currencyMap: Record<CurrencyType, string> = {
+      [CurrencyType.USD]: 'USD',
+      [CurrencyType.EUR]: 'EUR',
+      [CurrencyType.GBP]: 'GBP',
+      [CurrencyType.JPY]: 'JPY',
+      [CurrencyType.AUD]: 'AUD',
+      [CurrencyType.CAD]: 'CAD',
+    };
 
-  return currencyMap[type] ?? 'USD';
-}
-  
+    return currencyMap[type] ?? 'USD';
+  }
+
   onClickCard(accountId: string) {
     // Navigate to the account details page
     this.router.navigate([`/account/${accountId}`]);

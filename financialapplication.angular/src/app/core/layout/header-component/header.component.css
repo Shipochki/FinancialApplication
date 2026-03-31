@@ -173,3 +173,23 @@
     display: none;
   }
 }
+
+/* Mechanical spin effect on hover for the gear button */
+.mechanical-gear-btn {
+  /* Use a cubic-bezier for a slightly more rigid, mechanical snap */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mechanical-gear-btn:hover {
+  transform: rotate(90deg);
+}
+
+/* Make the Sign Out text match the warning red of the icon */
+.sign-out-item span {
+  color: #f44336; /* Default Material warn color */
+  font-weight: 500;
+}
+
+.mechanical-gear-btn mat-icon {
+  color: #ffffff; 
+}

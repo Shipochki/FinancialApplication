@@ -8,6 +8,7 @@ import { TransactionDetails } from './pages/transaction-details/transaction-deta
 import { Transactions } from './pages/transactions/transactions';
 import { EditTransaction } from './pages/edit-transaction/edit-transaction';
 import { EditAccount } from './pages/edit-account/edit-account';
+import { Categories } from './pages/categories/categories';
 
 export const routes: Routes = [
   {
@@ -51,6 +52,11 @@ export const routes: Routes = [
   {
     path: 'transactions/:accountId',
     component: Transactions,
+    canActivate: [MsalGuard],
+  },
+  {
+    path: 'categories',
+    component: Categories,
     canActivate: [MsalGuard],
   },
   {

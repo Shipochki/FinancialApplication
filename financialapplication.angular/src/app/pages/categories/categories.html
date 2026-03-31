@@ -1,0 +1,70 @@
+<div class="page-container">
+  <header class="page-header">
+    <div class="header-text">
+      <h1 class="mat-headline-4">Categories</h1>
+      <p class="mat-body-1 text-muted">
+        Manage the categories used for your multi-currency transactions.
+      </p>
+    </div>
+    <button mat-flat-button color="primary" (click)="onCreateCategory()">
+      <mat-icon>add</mat-icon>
+      Create Category
+    </button>
+  </header>
+
+  @if (this.isLoading()) {
+    <div class="categories-grid">
+      @for (category of categories; track category.id) {
+        <mat-card class="category-card">
+          <mat-card-header>
+            <div mat-card-avatar class="icon-avatar">
+              <mat-icon color="primary">{{ category.icon || 'category' }}</mat-icon>
+            </div>
+            <mat-card-title>{{ category.name }}</mat-card-title>
+            <mat-card-subtitle>
+              <mat-chip-set>
+                <mat-chip [color]="category.isGlobal ? 'tertiary' : 'primary'" highlighted>
+                  {{ category.isGlobal ? 'Global' : 'Custom' }}
+                </mat-chip>
+              </mat-chip-set>
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p class="mat-body-2 description-text">{{ category.description }}</p>
+          </mat-card-content>
+
+          <mat-card-actions align="end" class="card-actions">
+            @if (!category.isGlobal) {
+              <ng-container>
+                <button
+                  mat-icon-button
+                  color="primary"
+                  matTooltip="Edit Category"
+                  (click)="onEditCategory(category)"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  color="warn"
+                  matTooltip="Delete Category"
+                  (click)="onDeleteCategory(category.id)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </ng-container>
+            }
+            <ng-template #globalDisclaimer>
+              <span class="mat-caption text-muted disclaimer">Standard App Category</span>
+            </ng-template>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  } @else {
+    <div class="loading-container">
+      <p class="mat-body-1">Loading your categories...</p>
+    </div>
+  }
+</div>

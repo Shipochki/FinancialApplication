@@ -1,5 +1,4 @@
 <mat-toolbar color="primary" class="app-header">
-  <!-- Logo Section -->
   <div class="logo-container">
     <div class="logo-wrapper">
       <mat-icon class="logo-icon">account_balance_wallet</mat-icon>
@@ -7,25 +6,41 @@
     <span class="app-title" (click)="navigateToHome()">Financial Application</span>
   </div>
 
-  <!-- Spacer -->
   <span class="spacer"></span>
 
-  <!-- Auth Actions -->
   <div class="auth-actions">
-    @if(!authService.isLoggedIn()){
-    <button mat-button class="signin-btn" (click)="authService.login()">
-      <mat-icon>login</mat-icon>
-      <span>Sign In</span>
-    </button>
-    <button mat-flat-button color="accent" class="register-btn" (click)="authService.register()">
-      <mat-icon>person_add</mat-icon>
-      <span>Register</span>
-    </button>
-      } @else {
-    <button mat-button class="logout-btn" (click)="authService.logout()">
-      <mat-icon>logout</mat-icon>
-      <span>Sign Out</span>
-    </button>
+    @if (!authService.isLoggedIn()) {
+      <button mat-button class="signin-btn" (click)="authService.login()">
+        <mat-icon>login</mat-icon>
+        <span>Sign In</span>
+      </button>
+      <button mat-flat-button color="accent" class="register-btn" (click)="authService.register()">
+        <mat-icon>person_add</mat-icon>
+        <span>Register</span>
+      </button>
+    } @else {
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="settingsMenu"
+        class="mechanical-gear-btn"
+        aria-label="Settings and insights"
+      >
+        <mat-icon>settings</mat-icon>
+      </button>
+
+      <mat-menu #settingsMenu="matMenu" xPosition="before" class="friendly-menu">
+        <button mat-menu-item (click)="navigateToCategories()">
+          <mat-icon>category</mat-icon>
+          <span>My Categories</span>
+        </button>
+
+        <mat-divider></mat-divider>
+
+        <button mat-menu-item (click)="authService.logout()" class="sign-out-item">
+          <mat-icon color="warn">logout</mat-icon>
+          <span>Sign Out</span>
+        </button>
+      </mat-menu>
     }
   </div>
 </mat-toolbar>
