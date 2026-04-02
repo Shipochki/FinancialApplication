@@ -12,9 +12,9 @@
     </button>
   </header>
 
-  @if (this.isLoading()) {
+  @if (!this.isLoading()) {
     <div class="categories-grid">
-      @for (category of categories; track category.id) {
+      @for (category of this.categories().values(); track category.id) {
         <mat-card class="category-card">
           <mat-card-header>
             <div mat-card-avatar class="icon-avatar">
@@ -49,7 +49,7 @@
                   mat-icon-button
                   color="warn"
                   matTooltip="Delete Category"
-                  (click)="onDeleteCategory(category.id)"
+                  (click)="onDeleteCategory(category.id, category.name)"
                 >
                   <mat-icon>delete</mat-icon>
                 </button>

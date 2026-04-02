@@ -9,6 +9,7 @@ import { Transactions } from './pages/transactions/transactions';
 import { EditTransaction } from './pages/edit-transaction/edit-transaction';
 import { EditAccount } from './pages/edit-account/edit-account';
 import { Categories } from './pages/categories/categories';
+import { CreateCategory } from './pages/create-category/create-category';
 
 export const routes: Routes = [
   {
@@ -57,6 +58,11 @@ export const routes: Routes = [
   {
     path: 'categories',
     component: Categories,
+    canActivate: [MsalGuard],
+  },
+  {
+    path: 'create-category',
+    component: CreateCategory,
     canActivate: [MsalGuard],
   },
   {

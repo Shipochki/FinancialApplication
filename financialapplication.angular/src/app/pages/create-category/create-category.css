@@ -1,0 +1,35 @@
+.category-create-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background-color: var(--mat-sys-surface, #ffffff);
+
+  h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: var(--mat-sys-primary); 
+  }
+
+  .category-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    mat-form-field {
+      width: 100%;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 1rem;
+
+      button {
+        width: 100%;
+        padding: 1.5rem 0;
+      }
+    }
+  }
+}

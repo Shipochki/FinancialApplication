@@ -1,0 +1,53 @@
+<div class="category-create-container">
+  <h2>Create New Category</h2>
+
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" class="category-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Category Name</mat-label>
+      <input matInput formControlName="name" placeholder="e.g., Groceries" required />
+      @if (categoryForm.get('name')?.hasError('required')) {
+        <mat-error> Name is required. </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        rows="3"
+        placeholder="Briefly describe this category"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Category Icon</mat-label>
+      <mat-select formControlName="icon" required>
+        <mat-select-trigger>
+          <div class="icon-display-flex" *ngIf="categoryForm.get('icon')?.value as selectedIcon">
+            <mat-icon color="primary">{{ selectedIcon }}</mat-icon>
+            <span>{{ selectedIcon }}</span>
+          </div>
+        </mat-select-trigger>
+
+        @for (icon of topIcons; track icon) {
+          <mat-option [value]="icon">
+            <div class="icon-display-flex">
+              <mat-icon>{{ icon }}</mat-icon>
+              <span>{{ icon }}</span>
+            </div>
+          </mat-option>
+        }
+      </mat-select>
+      <mat-error *ngIf="categoryForm.get('icon')?.hasError('required')">
+        Icon is required.
+      </mat-error>
+    </mat-form-field>
+
+    <div class="form-actions">
+      <button mat-flat-button color="primary" type="submit" [disabled]="categoryForm.invalid">
+        Save Category
+      </button>
+    </div>
+  </form>
+</div>

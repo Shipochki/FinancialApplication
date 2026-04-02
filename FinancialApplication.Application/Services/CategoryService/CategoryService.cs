@@ -34,6 +34,9 @@
 				Owner = user,
 				CreatedOn = DateTime.UtcNow
 			};
+
+			await Repository.AddAsync(categoryToCreate);
+			await Repository.SaveChangesAsync();
 		}
 
 		public async Task DeleteCategoryAsync(string categoryId, string userExternalId)
