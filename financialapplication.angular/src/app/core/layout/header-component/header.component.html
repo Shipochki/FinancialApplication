@@ -19,6 +19,7 @@
         <span>Register</span>
       </button>
     } @else {
+      <span class="user-greeting">Hi, {{ this.username() }}</span>
       <button
         mat-icon-button
         [matMenuTriggerFor]="settingsMenu"
