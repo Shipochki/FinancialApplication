@@ -2,6 +2,7 @@
 {
     using FinancialApplication.Application.Common.Interfaces.Repository;
     using FinancialApplication.Application.Services.AccountService;
+	using FinancialApplication.Application.Services.BudgetService;
 	using FinancialApplication.Application.Services.CategoryService;
 	using FinancialApplication.Application.Services.TransactionService;
     using FinancialApplication.Application.Services.UserService;
@@ -40,6 +41,7 @@
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IBudgetService, BudgetService>();
             services.AddScoped<IRepository, Repository>();
             return services;
         }
