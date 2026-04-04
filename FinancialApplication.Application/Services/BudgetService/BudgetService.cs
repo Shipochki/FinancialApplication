@@ -2,6 +2,7 @@
 {
 	using FinancialApplication.Application.Common.Interfaces.Repository;
 	using FinancialApplication.Domain.Entities;
+	using FinancialApplication.Domain.Enums;
 
 	public class BudgetService : BaseService, IBudgetService
 	{
@@ -33,7 +34,7 @@
 				Description = budgetDto.Description,
 				StartDate = budgetDto.StartDate,
 				EndDate = budgetDto.EndDate,
-				Type = budgetDto.Type,
+				Type = (TypeBudget)budgetDto.Type,
 				AccountId = Guid.Parse(budgetDto.AccountId),
 				Account = account,
 				CategoryId = Guid.Parse(budgetDto.CategoryId),
@@ -69,7 +70,7 @@
 					Description = b.Description,
 					StartDate = b.StartDate,
 					EndDate = b.EndDate,
-					Type = b.Type,
+					Type = (int)b.Type,
 					AccountId = b.AccountId.ToString(),
 					CategoryId = b.CategoryId.ToString(),
 				})
@@ -93,7 +94,7 @@
 				Description = budget.Description,
 				StartDate = budget.StartDate,
 				EndDate = budget.EndDate,
-				Type = budget.Type,
+				Type = (int)budget.Type,
 				AccountId = budget.AccountId.ToString(),
 				CategoryId = budget.CategoryId.ToString(),
 			};
@@ -127,7 +128,7 @@
 			budget.Description = budgetDto.Description;
 			budget.StartDate = budgetDto.StartDate;
 			budget.EndDate = budgetDto.EndDate;
-			budget.Type = budgetDto.Type;
+			budget.Type = (TypeBudget)budgetDto.Type;
 
 			await Repository.SaveChangesAsync();
 		}

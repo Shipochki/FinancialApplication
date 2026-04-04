@@ -13,7 +13,7 @@
         protected readonly IUserService UserService;
         protected readonly ITransactionService TransactionService;
         protected readonly ICategoryService CategoryService;
-        protected readonly IBudgetService budgetService;
+        protected readonly IBudgetService BudgetService;
 
 		public BaseController(IAccountService accountService
             , IUserService userService
