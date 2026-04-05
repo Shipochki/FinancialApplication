@@ -1,0 +1,102 @@
+.budget-page-wrapper {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.page-header .header-titles h1 {
+  margin: 0 0 4px 0;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.page-header .header-titles .account-id-label {
+  margin: 0;
+  color: var(--mat-sys-on-surface-variant, #666);
+  font-size: 0.875rem;
+}
+
+.budgets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.budget-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.budget-card mat-card-header {
+  display: flex;
+  align-items: flex-start;
+}
+
+.budget-card .action-menu-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.budget-card mat-card-content {
+  margin-top: 16px;
+}
+
+.budget-card .budget-amount {
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin: 0 0 12px 0;
+  color: var(--mat-sys-primary, #007bb5);
+}
+
+.budget-card .budget-description {
+  color: var(--mat-sys-on-surface-variant, #555);
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+}
+
+.budget-card .budget-dates {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--mat-sys-on-surface-variant, #666);
+}
+
+.budget-card .budget-dates .date-icon {
+  font-size: 18px;
+  width: 18
+  x;
+  height: 18px;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
+  color: var(--mat-sys-outline, #888);
+}
+
+.empty-state mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+  margin: 0;
+}

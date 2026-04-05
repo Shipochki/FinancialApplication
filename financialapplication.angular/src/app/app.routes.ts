@@ -10,6 +10,8 @@ import { EditTransaction } from './pages/edit-transaction/edit-transaction';
 import { EditAccount } from './pages/edit-account/edit-account';
 import { Categories } from './pages/categories/categories';
 import { CreateCategory } from './pages/create-category/create-category';
+import { Budgets } from './pages/budgets/budgets';
+import { CreateBudget } from './pages/create-budget/create-budget';
 
 export const routes: Routes = [
   {
@@ -63,6 +65,16 @@ export const routes: Routes = [
   {
     path: 'create-category',
     component: CreateCategory,
+    canActivate: [MsalGuard],
+  },
+  {
+    path: 'budgets/:accountId',
+    component: Budgets,
+    canActivate: [MsalGuard],
+  },
+  {
+    path: 'create-budget/:accountId',
+    component: CreateBudget,
     canActivate: [MsalGuard],
   },
   {

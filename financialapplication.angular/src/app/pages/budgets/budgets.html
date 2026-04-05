@@ -1,0 +1,70 @@
+<div class="budget-page-wrapper">
+  <header class="page-header">
+    <div class="header-titles">
+      <h1>Budgets Overview</h1>
+      <p class="account-id-label">
+        Account ID: <strong>{{ accountId }}</strong>
+      </p>
+    </div>
+
+    <button mat-flat-button color="primary" (click)="onAddBudget()">
+      <mat-icon>add</mat-icon>
+      Add Budget
+    </button>
+  </header>
+
+  <div class="budgets-grid">
+    @for (budget of this.budgets(); track budget.id) {
+      <mat-card class="budget-card">
+        <mat-card-header>
+          <div mat-card-avatar>
+            <mat-icon color="primary">{{ budget.category.icon || 'category' }}</mat-icon>
+          </div>
+          <mat-card-title>{{ budget.name }}</mat-card-title>
+          <mat-card-subtitle>{{ budget.category.name }}</mat-card-subtitle>
+
+          <button
+            mat-icon-button
+            class="action-menu-btn"
+            [matMenuTriggerFor]="budgetMenu"
+            aria-label="Budget actions"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+
+          <mat-menu #budgetMenu="matMenu">
+            <button mat-menu-item (click)="onEditBudget(budget)">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="onDeleteBudget(budget)">
+              <mat-icon color="warn">delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </mat-card-header>
+
+        <mat-card-content>
+          <h2 class="budget-amount">{{ budget.amount | currency }}</h2>
+
+          @if (budget.description) {
+            <p class="budget-description">{{ budget.description }}</p>
+          }
+
+          <div class="budget-dates">
+            <mat-icon class="date-icon">calendar_today</mat-icon>
+            <span
+              >{{ budget.startDate | date: 'shortDate' }} —
+              {{ budget.endDate | date: 'shortDate' }}</span
+            >
+          </div>
+        </mat-card-content>
+      </mat-card>
+    } @empty {
+      <div class="empty-state">
+        <mat-icon>account_balance_wallet</mat-icon>
+        <p>No budgets found for this account.</p>
+      </div>
+    }
+  </div>
+</div>

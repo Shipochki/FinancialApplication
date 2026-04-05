@@ -4,9 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { TransactionService } from '../../core/services/transaction.service';
 import { GetTransactionDto } from '../../shared/models/transaction.model';
 import { GlobalAuthService } from '../../core/services/GlobalAuthService';
+import { PaginatedResponse } from '../../shared/models/shared.model';
 
 @Component({
   selector: 'app-transactions',
@@ -15,10 +17,11 @@ import { GlobalAuthService } from '../../core/services/GlobalAuthService';
     CommonModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    MatIconModule
+    MatIconModule,
+    MatPaginatorModule, // <-- Added Paginator Module
   ],
   templateUrl: './transactions.html',
-  styleUrl: './transactions.css'
+  styleUrl: './transactions.css',
 })
 export class Transactions implements OnInit {
   private route = inject(ActivatedRoute);
@@ -31,66 +34,55 @@ export class Transactions implements OnInit {
 
   // Pagination State
   isLoading = signal(false);
-  hasMore: boolean = true;
   pageIndex: number = 0;
-  readonly pageSize: number = 11;
+  pageSize: number = 10;
+  totalTransactions = signal(0); // <-- Needs to be updated with the real total count from your backend
 
   ngOnInit(): void {
-    this.route.paramMap.pipe().subscribe(params => {
-      return this.accountId.set(params.get('accountId') || '');
-    });
+    this.route.paramMap.pipe().subscribe((params) => {
+      this.accountId.set(params.get('accountId') || '');
 
-    if (this.authService.isLoggedIn()) {
-      if (this.accountId()) {
+      if (this.authService.isLoggedIn() && this.accountId()) {
         this.resetAndLoad();
       }
-    }
+    });
   }
 
   resetAndLoad(): void {
-    this.transactions = [];
     this.pageIndex = 0;
-    this.hasMore = true;
     this.loadTransactions();
   }
 
   loadTransactions(): void {
-    if (this.isLoading() || !this.hasMore) return;
-
     this.isLoading.set(true);
 
-    // Assuming your service takes (accountId, skip, take) or similar pagination parameters.
     const skip = this.pageIndex * this.pageSize;
 
-    this.transactionService.getAllTransactionsByAccountId(this.accountId(), skip, this.pageSize)
+    this.transactionService
+      .getAllTransactionsByAccountId(this.accountId(), skip, this.pageSize)
       .subscribe({
-        next: (newTransactions) => {
-          this.transactions = [...this.transactions, ...newTransactions];
+        next: (response: PaginatedResponse<GetTransactionDto>) => {
+          // Replace the array instead of appending
+          this.transactions = response.items;
 
-          // If we received fewer items than requested, we've hit the end of the list
-          if (newTransactions.length < this.pageSize) {
-            this.hasMore = false;
-          }
+          this.totalTransactions.set(response.count); // Update total count for pagination
 
-          this.pageIndex++;
+          // NOTE: If your API updates to return a total count, assign it here:
+          // this.totalTransactions.set(response.totalCount);
+
           this.isLoading.set(false);
         },
         error: (err) => {
           console.error('Error fetching transactions:', err);
           this.isLoading.set(false);
-        }
+        },
       });
   }
 
-  onScroll(event: Event): void {
-    const target = event.target as HTMLElement;
-    const threshold = 50; // pixels from bottom to trigger load
-
-    const position = target.scrollHeight - target.scrollTop;
-
-    if (position <= target.clientHeight + threshold) {
-      this.loadTransactions();
-    }
+  onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadTransactions();
   }
 
   onClickTransaction(transactionId: string): void {

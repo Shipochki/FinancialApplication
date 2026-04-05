@@ -109,7 +109,14 @@
             return TransactionDto.TransactionToTransactionDto(transaction);
         }
 
-        public async Task UpdateTransactionAsync(TransactionDto transactionDto)
+		public int GetTransactionsCount(string accountId)
+		{
+			return Repository.All<Transaction>()
+                .Where(t => t.AccountId == Guid.Parse(accountId) && t.IsDeleted == false)
+                .Count();
+		}
+
+		public async Task UpdateTransactionAsync(TransactionDto transactionDto)
         {
 			Transaction? transaction = await Repository
 				.FirstOrDefaultAsync<Transaction>(t => t.Id == Guid.Parse(transactionDto.Id));
@@ -156,6 +163,6 @@
             transaction.ModifiedOn = DateTime.UtcNow;
 
 			await Repository.SaveChangesAsync();
-		}
+		}   
     }
 }

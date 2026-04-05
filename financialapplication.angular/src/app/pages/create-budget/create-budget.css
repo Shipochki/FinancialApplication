@@ -1,0 +1,71 @@
+.budget-create-wrapper {
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 24px;
+
+  .header-titles {
+    h1 {
+      margin: 0 0 4px 0;
+      font-size: 2rem;
+      font-weight: 500;
+      color: var(--mat-sys-on-surface);
+    }
+    .account-id-label {
+      margin: 0;
+      color: var(--mat-sys-primary, #007bb5);
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.form-card {
+  padding: 16px;
+}
+
+.budget-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    
+    .half-width {
+      flex: 1;
+    }
+  }
+}
+
+.category-option-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .category-icon {
+    color: var(--mat-sys-primary, #007bb5);
+  }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+}

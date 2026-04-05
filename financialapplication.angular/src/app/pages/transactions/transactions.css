@@ -13,13 +13,11 @@
   }
 }
 
-.scroll-viewport {
+.content-viewport {
   flex: 1;
-  overflow-y: auto;
-  padding-right: 8px; /* Room for scrollbar */
-  
-  /* Smooth scrolling */
-  scroll-behavior: smooth;
+  overflow-y: auto; 
+  padding-right: 8px; /* Room for scrollbar if a specific page gets too tall */
+  margin-bottom: 16px;
 }
 
 .transaction-list {
@@ -30,18 +28,18 @@
 
 /* Target the mat-card */
 .tx-card {
-  position: relative; /* Required to keep the absolute overlay inside the card */
-  cursor: pointer;    /* Changes the cursor to a pointing hand */
-  overflow: hidden;   /* Prevents the overlay from spilling outside rounded corners */
+  position: relative; 
+  cursor: pointer;    
+  overflow: hidden;   
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   /* The Hover State */
   &:hover {
-    transform: translateY(-2px); /* Optional: Gives a friendly "lift" effect */
+    transform: translateY(-2px); 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
     .hover-overlay {
-      opacity: 1; /* Reveals the "Open Details" text */
+      opacity: 1; 
     }
   }
 }
@@ -53,22 +51,22 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent white background */
-  backdrop-filter: blur(2px); /* Optional: lightly blurs the text underneath */
+  background-color: rgba(255, 255, 255, 0.85); 
+  backdrop-filter: blur(2px); 
   
   /* Centers the text */
   display: flex;
   justify-content: center;
   align-items: center;
   
-  opacity: 0; /* Hidden by default */
+  opacity: 0; 
   transition: opacity 0.2s ease-in-out;
-  z-index: 10; /* Ensures it sits on top of the card content */
+  z-index: 10; 
   
   /* Text Styling */
   font-weight: 500;
   font-size: 1.1rem;
-  color: #3f51b5; /* Update this hex to match your app's primary theme color */
+  color: #3f51b5; 
 }
 
 .tx-content {
@@ -118,10 +116,11 @@
 .loading-container {
   display: flex;
   justify-content: center;
-  padding: 24px 0;
+  align-items: center;
+  height: 200px; /* Gives the spinner some breathing room when loading pages */
 }
 
-.end-message, .empty-state {
+.empty-state {
   text-align: center;
   padding: 24px 0;
   color: var(--mat-sys-on-surface-variant, #666);

@@ -71,11 +71,14 @@
 
 		[HttpGet]
 		[Route("[action]/{accountId}")]
-		public async Task<List<GetTransactionDto>> GetAllTransactionsByAccountId(string accountId, [FromQuery] int skip, [FromQuery] int pageSize)
+		public async Task<TransactionsPaginationDto> GetAllTransactionsByAccountId(string accountId, [FromQuery] int skip, [FromQuery] int pageSize)
 		{
 			List<TransactionDto> transactions = TransactionService.GetAllTransactionsForScroll(accountId, skip, pageSize);
 
-			return transactions
+			return new TransactionsPaginationDto()
+			{
+				Count = TransactionService.GetTransactionsCount(accountId),
+				Items = transactions
 				.Select(t => new GetTransactionDto()
 				{
 					Id = t.Id,
@@ -86,7 +89,8 @@
 					CategoryId = t.CategoryId,
 					AccountId = t.AccountId,
 				})
-				.ToList();
+				.ToList()
+			};
 		}
 
 		[HttpPost]

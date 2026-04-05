@@ -69,6 +69,10 @@ export class Account implements OnInit {
     this.routeNavigator.navigate([`/edit-account/${this.accountId()}`]);
   }
 
+  toBudgets() {
+    this.routeNavigator.navigate([`/budgets/${this.accountId()}`]);
+  }
+
   deleteAccount() {
     if (this.account()) {
       // 1. Open the dialog

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { CreateBudgetDto, UpdateBudgetDto } from '../../shared/models/budget.model';
+import { CreateBudgetDto, GetBudgetDto, UpdateBudgetDto } from '../../shared/models/budget.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,12 +19,12 @@ export class BudgetService {
     return this.http.put(`${this.apiUrl}/updateBudget`, budget);
   }
 
-  getAllBudgetsByAccountId(accountId: string) {
-    return this.http.get(`${this.apiUrl}/getAllBudgetsByAccountId/${accountId}`);
+  getAllBudgetsByAccountId(accountId: string): Observable<GetBudgetDto[]> {
+    return this.http.get<GetBudgetDto[]>(`${this.apiUrl}/getAllBudgetsByAccountId/${accountId}`);
   }
 
-  getBudgetById(budgetId: string) {
-    return this.http.get(`${this.apiUrl}/getBudgetById/${budgetId}`);
+  getBudgetById(budgetId: string): Observable<GetBudgetDto> {
+    return this.http.get<GetBudgetDto>(`${this.apiUrl}/getBudgetById/${budgetId}`);
   }
 
   deleteBudget(budgetId: string) {

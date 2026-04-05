@@ -13,14 +13,14 @@
 
 		public async Task CreateBudgetAsync(BudgetDto budgetDto)
 		{
-			Account? account = await Repository.GetByIdAsync<Account>(budgetDto.AccountId);
+			Account? account = await Repository.FirstOrDefaultAsync<Account>(a => a.Id == Guid.Parse(budgetDto.AccountId));
 
 			if (account == null)
 			{
 				throw new ArgumentNullException($"In Service:{nameof(BudgetService)}, Method: {nameof(CreateBudgetAsync)}, Cannot find {nameof(Account)} with id {budgetDto.AccountId}");
 			}
 
-			Category? category = await Repository.GetByIdAsync<Category>(budgetDto.CategoryId);
+			Category? category = await Repository.FirstOrDefaultAsync<Category>(c => c.Id == Guid.Parse(budgetDto.CategoryId));
 
 			if (category == null)
 			{
@@ -48,7 +48,7 @@
 
 		public async Task DeleteBudgetAsync(string budgetId)
 		{
-			Budget? budget = await Repository.GetByIdAsync<Budget>(budgetId);
+			Budget? budget = await Repository.FirstOrDefaultAsync<Budget>(c => c.Id == Guid.Parse(budgetId));
 
 			if (budget == null)
 			{
@@ -79,7 +79,7 @@
 
 		public async Task<BudgetDto> GetBudgetByIdAsync(string budgetId)
 		{
-			Budget? budget = await Repository.GetByIdAsync<Budget>(budgetId);
+			Budget? budget = await Repository.FirstOrDefaultAsync<Budget>(c => c.Id == Guid.Parse(budgetId));
 
 			if (budget == null)
 			{
@@ -102,21 +102,21 @@
 
 		public async Task UpdateBudgetAsync(BudgetDto budgetDto)
 		{
-			Budget? budget = await Repository.GetByIdAsync<Budget>(budgetDto.Id);
+			Budget? budget = await Repository.FirstOrDefaultAsync<Budget>(b => b.Id == Guid.Parse(budgetDto.Id));
 
 			if (budget == null)
 			{
 				throw new ArgumentNullException($"In Service:{nameof(BudgetService)}, Method: {nameof(UpdateBudgetAsync)}, Cannot find {nameof(Budget)} with id {budgetDto.Id}");
 			}
 
-			Account? account = await Repository.GetByIdAsync<Account>(budgetDto.AccountId);
+			Account? account = await Repository.FirstOrDefaultAsync<Account>(c => c.Id == Guid.Parse(budgetDto.AccountId));
 
 			if (account == null)
 			{
 				throw new ArgumentNullException($"In Service:{nameof(BudgetService)}, Method: {nameof(UpdateBudgetAsync)}, Cannot find {nameof(Account)} with id {budgetDto.AccountId}");
 			}
 
-			Category? category = await Repository.GetByIdAsync<Category>(budgetDto.CategoryId);
+			Category? category = await Repository.FirstOrDefaultAsync<Category>(c => c.Id == Guid.Parse(budgetDto.CategoryId));
 
 			if (category == null)
 			{

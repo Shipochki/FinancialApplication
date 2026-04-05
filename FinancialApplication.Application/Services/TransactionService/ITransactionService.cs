@@ -8,5 +8,7 @@
         Task<TransactionDto> GetTransactionByIdAsync(string transactionId);
         Task<List<TransactionDto>> GetTopTransactionsByAccountId(string accountId, int number);
 		List<TransactionDto> GetAllTransactionsForScroll(string accountId, int skip, int pageSize);
+
+        int GetTransactionsCount(string accountId);
     }
 }
