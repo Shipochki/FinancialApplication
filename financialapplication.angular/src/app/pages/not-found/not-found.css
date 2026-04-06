@@ -1,0 +1,48 @@
+:host {
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.not-found-container {
+  width: 100%;
+  min-height: calc(100vh - 64px);
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.not-found-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  max-width: 500px;
+  text-align: center;
+  padding: 60px 40px;
+  border-radius: 16px;
+  background: white;
+  box-shadow: var(--card-shadow);
+}
+
+.error-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: var(--mat-sys-error);
+}
+
+.not-found-state h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0;
+}
+
+.not-found-state p {
+  font-size: 1rem;
+  color: #4a5568;
+  margin: 0;
+}

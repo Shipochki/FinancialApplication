@@ -1,6 +1,7 @@
 ﻿namespace FinancialApplication.Api.Extensions
 {
-    using FinancialApplication.Application.Common.Interfaces.Repository;
+	using FinancialApplication.Api.Filters;
+	using FinancialApplication.Application.Common.Interfaces.Repository;
     using FinancialApplication.Application.Services.AccountService;
 	using FinancialApplication.Application.Services.BudgetService;
 	using FinancialApplication.Application.Services.CategoryService;
@@ -32,6 +33,7 @@
             builder.Services.ConfigureScopedServices();
             builder.Services.ConfigureCorses();
             builder.Services.ConfigureAuthorization();
+            builder.Services.ConfigureGlobalExceptionHandler();
         }
 
         private static IServiceCollection ConfigureScopedServices(this IServiceCollection services)
@@ -77,5 +79,15 @@
                 });
             });
         }
-    }
+
+		private static IServiceCollection ConfigureGlobalExceptionHandler(this IServiceCollection services)
+		{
+			services.AddControllers(options =>
+			{
+				options.Filters.Add(typeof(GlobalExceptionHandler));
+			});
+
+			return services;
+		}
+	}
 }

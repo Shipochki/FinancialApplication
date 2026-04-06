@@ -3,8 +3,9 @@
     using FinancialApplication.Domain.Entities;
     using FinancialApplication.Infrastructure.EntityConfigurations;
     using Microsoft.EntityFrameworkCore;
+    using static FinancialApplication.Infrastructure.Data.Seeding.CategorySeeder;
 
-    public class FinancialApplicationDbContext : DbContext
+	public class FinancialApplicationDbContext : DbContext
     {
         public FinancialApplicationDbContext(DbContextOptions<FinancialApplicationDbContext> options)
             : base(options)
@@ -29,6 +30,8 @@
             modelBuilder.ApplyConfiguration(new CategoryEntityConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionEntityConfiguration());
             modelBuilder.ApplyConfiguration(new UserEntityConfiguration());
+
+            //modelBuilder.Entity<Category>().HasData(GetSeedCategories());
 
             base.OnModelCreating(modelBuilder);
         }

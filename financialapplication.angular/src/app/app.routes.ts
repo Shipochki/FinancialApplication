@@ -12,6 +12,8 @@ import { Categories } from './pages/categories/categories';
 import { CreateCategory } from './pages/create-category/create-category';
 import { Budgets } from './pages/budgets/budgets';
 import { CreateBudget } from './pages/create-budget/create-budget';
+import { NotFound } from './pages/not-found/not-found';
+import { BadRequest } from './pages/bad-request/bad-request';
 
 export const routes: Routes = [
   {
@@ -78,7 +80,11 @@ export const routes: Routes = [
     canActivate: [MsalGuard],
   },
   {
+    path: 'error',
+    component: BadRequest,
+  },
+  {
     path: '**',
-    redirectTo: '',
+    component: NotFound,
   },
 ];

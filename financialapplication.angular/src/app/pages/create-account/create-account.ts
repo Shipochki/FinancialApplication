@@ -14,19 +14,18 @@ import { CurrencyType } from '../../shared/enums/currency-type';
 @Component({
   selector: 'app-create-account',
   imports: [
-    CommonModule, 
-    ReactiveFormsModule, 
-    MatFormFieldModule, 
-    MatInputModule, 
-    MatSelectModule, 
-    MatButtonModule, 
-    MatCardModule
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatCardModule,
   ],
   templateUrl: './create-account.html',
   styleUrl: './create-account.css',
-  standalone: true
+  standalone: true,
 })
-
 export class CreateAccount {
   accountForm: FormGroup;
   private router = inject(Router);
@@ -39,30 +38,30 @@ export class CreateAccount {
     { label: 'GBP', value: CurrencyType.GBP },
     { label: 'JPY', value: CurrencyType.JPY },
     { label: 'AUD', value: CurrencyType.AUD },
-    { label: 'CAD', value: CurrencyType.CAD }
+    { label: 'CAD', value: CurrencyType.CAD },
   ];
 
   constructor(private fb: FormBuilder) {
     this.accountForm = this.fb.group({
       name: ['', [Validators.min(3), Validators.max(50), Validators.required]],
-      balance: [0.00, [Validators.required]],       
+      balance: [0.0, [Validators.required]],
       description: ['', [Validators.max(200)]],
-      currency: [0, [Validators.required, Validators.min(0), Validators.max(5)]] 
+      currency: [0, [Validators.required, Validators.min(0), Validators.max(5)]],
     });
   }
 
-  onSubmit(){
+  onSubmit() {
     if (this.accountForm.valid) {
       const data = this.accountForm.value;
       this.accountService.createAccount(data).subscribe({
         next: (response) => {
           console.log('Account created successfully', response);
-          this.router.navigate(['/accounts']); // Redirect to accounts list after successful creation
+          this.router.navigate(['/home']); // Redirect to accounts list after successful creation
         },
         error: (error) => {
           console.error('Error creating account', error);
-        }
+        },
       });
     }
   }
-} 
+}
