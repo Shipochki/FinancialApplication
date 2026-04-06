@@ -1,17 +1,12 @@
-﻿using NUnit.Framework;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using FinancialApplication.Application.Services.BudgetService;
-using FinancialApplication.Application.Common.Interfaces.Repository;
-using FinancialApplication.Domain.Entities;
-using FinancialApplication.Domain.Enums;
-
-namespace FinancialApplication.UnitTests
+﻿namespace FinancialApplication.UnitTests
 {
+	using Moq;
+	using System.Linq.Expressions;
+	using FinancialApplication.Application.Services.BudgetService;
+	using FinancialApplication.Application.Common.Interfaces.Repository;
+	using FinancialApplication.Domain.Entities;
+	using FinancialApplication.Domain.Enums;
+
 	[TestFixture]
 	public class BudgetServiceTests
 	{
@@ -243,7 +238,7 @@ namespace FinancialApplication.UnitTests
 			};
 
 			var account = new Account { Id = Guid.Parse(budgetDto.AccountId), Name = "test", Owner = new User(), OwnerId = Guid.NewGuid() };
-			var category = new Category { Id = Guid.Parse(budgetDto.CategoryId), Name = "test", Icon = "test" }; 
+			var category = new Category { Id = Guid.Parse(budgetDto.CategoryId), Name = "test", Icon = "test" };
 			var budget = new Budget { Id = Guid.Parse(budgetDto.Id), Name = "Old Name", Account = account, Category = category, CategoryId = category.Id };
 
 
@@ -282,8 +277,8 @@ namespace FinancialApplication.UnitTests
 		public void UpdateBudgetAsync_WhenAccountDoesNotExist_ShouldThrowArgumentNullException()
 		{
 			// Arrange
-			var budgetDto = new BudgetDto { Id = Guid.NewGuid().ToString(), AccountId = Guid.NewGuid().ToString(), CategoryId = Guid.NewGuid().ToString(), Name = "test"};
-			var budget = new Budget { Id = Guid.Parse(budgetDto.Id), Name = "test", Account = new Account { Id = Guid.Parse(budgetDto.AccountId), Name = "test", Owner = new User(), OwnerId = Guid.NewGuid(), }, Category = new Category { Id = Guid.Parse(budgetDto.CategoryId), Name = "test", Icon = "test" }, CategoryId = Guid.NewGuid()};
+			var budgetDto = new BudgetDto { Id = Guid.NewGuid().ToString(), AccountId = Guid.NewGuid().ToString(), CategoryId = Guid.NewGuid().ToString(), Name = "test" };
+			var budget = new Budget { Id = Guid.Parse(budgetDto.Id), Name = "test", Account = new Account { Id = Guid.Parse(budgetDto.AccountId), Name = "test", Owner = new User(), OwnerId = Guid.NewGuid(), }, Category = new Category { Id = Guid.Parse(budgetDto.CategoryId), Name = "test", Icon = "test" }, CategoryId = Guid.NewGuid() };
 
 			_repositoryMock.Setup(r => r.FirstOrDefaultAsync(It.IsAny<Expression<Func<Budget, bool>>>()))
 						   .ReturnsAsync(budget);
@@ -308,7 +303,7 @@ namespace FinancialApplication.UnitTests
 			};
 
 			var account = new Account { Id = Guid.Parse(budgetDto.AccountId), Name = "test", Owner = new User(), OwnerId = Guid.NewGuid() };
-			var budget = new Budget { Id = Guid.Parse(budgetDto.Id), Name = "test", Account = account, Category = new Category{ Icon = "test", Name = "test"}, CategoryId = Guid.NewGuid() };
+			var budget = new Budget { Id = Guid.Parse(budgetDto.Id), Name = "test", Account = account, Category = new Category { Icon = "test", Name = "test" }, CategoryId = Guid.NewGuid() };
 
 			_repositoryMock.Setup(r => r.FirstOrDefaultAsync(It.IsAny<Expression<Func<Budget, bool>>>()))
 						   .ReturnsAsync(budget);
