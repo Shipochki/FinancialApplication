@@ -94,6 +94,12 @@ To streamline development and testing, the infrastructure layer includes an auto
    ```bash
    git clone [https://github.com/Shipochki/FinancialApplication.git](https://github.com/Shipochki/FinancialApplication.git)
    cd FinancialApplication
+
+2. You need to have Connection string and AzureAd - for them you need to contact me to provide you!
+   
+### Frontend Setup
+1. You need to contact me to provide you environment configuration for AzureAd
+   
 Images from the application:
 - Home Page without SignIn User
    <img width="1917" height="947" alt="Screenshot 2026-04-06 142731" src="https://github.com/user-attachments/assets/304b99d5-5a18-4e53-9bb0-e90bf6d50262" />
