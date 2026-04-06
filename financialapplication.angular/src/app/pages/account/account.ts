@@ -94,7 +94,7 @@ export class Account implements OnInit {
             next: () => {
               console.log('Account deleted successfully');
               // Navigate back to the account list after deletion
-              this.routeNavigator.navigate(['/accounts']);
+              this.routeNavigator.navigate(['/home']);
             },
             error: (err) => {
               console.error('Error deleting account', err);

@@ -2,11 +2,10 @@
   <h2>Create Transaction</h2>
 
   @if (!accountId()) {
-  <div class="error-banner">Error: No Account ID provided in the URL.</div>
+    <div class="error-banner">Error: No Account ID provided in the URL.</div>
   }
 
   <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" class="transaction-form">
-
     <mat-form-field appearance="outline">
       <mat-label>Type</mat-label>
       <mat-select formControlName="type">
@@ -17,8 +16,10 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Amount</mat-label>
-      <input matInput type="number" formControlName="amount" placeholder="0.00">
-      <mat-error *ngIf="transactionForm.get('amount')?.hasError('required')">Amount is required</mat-error>
+      <input matInput type="number" formControlName="amount" placeholder="0.00" />
+      <mat-error *ngIf="transactionForm.get('amount')?.hasError('required')"
+        >Amount is required</mat-error
+      >
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -29,38 +30,49 @@
         </mat-select-trigger>
 
         @for (category of categories; track category.id) {
-        <mat-option [value]="category.id">
-          <div class="category-option">
-            <mat-icon>{{ category.icon }}</mat-icon>
-            <span>{{ category.name }}</span>
-          </div>
-        </mat-option>
+          <mat-option [value]="category.id">
+            <div class="category-option">
+              <mat-icon>{{ category.icon }}</mat-icon>
+              <span>{{ category.name }}</span>
+            </div>
+          </mat-option>
         }
       </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Date</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="date">
+      <input matInput [matDatepicker]="picker" formControlName="date" />
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description" rows="3" placeholder="Optional notes..."></textarea>
-      <mat-hint align="end">{{ transactionForm.get('description')?.value?.length || 0 }} / 200</mat-hint>
-      @if(transactionForm.get('description')?.hasError('maxlength')){
-      <mat-error>Max 200 characters</mat-error>
+      <textarea
+        matInput
+        formControlName="description"
+        rows="3"
+        placeholder="Optional notes..."
+      ></textarea>
+      <mat-hint align="end"
+        >{{ transactionForm.get('description')?.value?.length || 0 }} / 200</mat-hint
+      >
+      @if (transactionForm.get('description')?.hasError('maxlength')) {
+        <mat-error>Max 200 characters</mat-error>
       }
     </mat-form-field>
 
     <div class="form-actions">
       <button mat-button type="button" routerLink="/account">Cancel</button>
-      <button mat-raised-button color="primary" type="submit" [disabled]="transactionForm.invalid || !accountId">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="transactionForm.invalid || !accountId"
+      >
         Save Transaction
       </button>
     </div>
-
   </form>
 </div>
