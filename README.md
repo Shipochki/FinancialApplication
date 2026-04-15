@@ -99,6 +99,45 @@ To streamline development and testing, the infrastructure layer includes an auto
    
 ### Frontend Setup
 1. You need to contact me to provide you environment configuration for AzureAd
+
+## ✨ Functional Flow
+
+### 🔐 1. Authentication & Onboarding
+* **Unauthenticated State:** The landing page displays **Sign In** (Login) and **Get Started** (Register) buttons in the main view and the top-right header.
+* **Secure Access:** The application exclusively uses Microsoft Account SSO (Single Sign-On) to ensure a secure and frictionless login experience.
+* **First-Time Setup:** If no accounts exist upon login, the dashboard displays a *"No account found"* message alongside a **Create Account** button to begin onboarding.
+
+### 💳 2. Account Management
+* **Account Creation:** Users can create an account by providing a Name, Description, Initial Balance, and Currency (supporting multiple currencies like USD, EUR, etc.).
+* **Main Dashboard:** Active accounts are displayed in a scroll-friendly carousel. A quick-access button is anchored at the bottom to add additional accounts.
+* **Account Details:** Clicking a specific account in the carousel opens its dedicated view.
+* **Recent Activity Overview:** The account view previews up to three of the most recent transactions, showing Amount, Type, Date, Description, and a **Details** button.
+* **Quick Actions:** Three primary action buttons are located at the bottom of the account view:
+  * `Add Transaction`
+  * `View All Transactions`
+  * `View Budgets`
+* **Account Settings:** A three-dot menu provides options to **Edit** or **Delete** the current account.
+
+### 💸 3. Transaction Management
+* **Create Transaction:** A dedicated form with fields for Transaction Type, Amount, Category (global or custom), Date (supports past, current, and future/planned dates), and Description. Submission redirects back to the Account page.
+* **Transaction History:** A dedicated *"All Transactions"* view featuring pagination. Users can select the number of items per page and navigate using arrows.
+* **List View & Details:** List items display a short description, amount, and date. Hovering reveals an **Open Details** prompt.
+* **Comprehensive Details:** The transaction details page shows the Category, Date, Amount, Type, Description, Account ID, and Transaction ID.
+* **Modify Data:** * **Edit:** Accessed from the details page, opening a form identical to the creation page.
+  * **Delete:** Triggers a strict confirmation pop-up to prevent accidental data loss.
+
+### 📉 4. Budget Management
+* **Budget Dashboard:** Accessed via the **View Budgets** button on the Account page. Lists all budgets tied to the current account with an **Add New Budget** button in the top right.
+* **Budget Tracking (In Development):** Associates specific categories with budgets to automatically track transaction spending against the allocated budget amount.
+* **Create Budget:** Requires Budget Name, Amount, Type (e.g., General Savings, Operating), Category, Start Date, End Date, and Description.
+
+### ⚙️ 5. Category Management & Settings
+* **Global Navigation:** A mechanical wheel (gear) icon in the top right corner serves as a dropdown menu containing **My Categories** and **Sign Out**.
+* **Category Hub:** Displays all available categories, clearly differentiating between global (public) categories and user-created custom categories.
+* **Custom Category Actions:** Each custom category includes buttons for editing and deleting.
+* **Create Category:** An **Add Category** button is located in the top right corner. The form requires a Name, Description, and an Icon selection.
+* **Edit Category:** Opens a lightweight, quick-submit pop-up modal to update category details without leaving the current page.
+
    
 Images from the application:
 - Home Page without SignIn User
