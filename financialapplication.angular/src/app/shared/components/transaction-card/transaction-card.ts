@@ -13,19 +13,17 @@ import { GetTransactionDto } from '../../models/transaction.model';
   styleUrl: './transaction-card.css',
   standalone: true,
 })
-export class TransactionCard implements OnInit{
-  @Input({ required: true}) transaction!: GetTransactionDto;
+export class TransactionCard implements OnInit {
+  @Input({ required: true }) transaction!: GetTransactionDto;
   private route = inject(Router);
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
-  onClickTransaction(){
+  onClickTransaction() {
     this.route.navigate([`/transaction/${this.transaction.id}`]);
   }
 
   get isIncome(): boolean {
-    return this.transaction.type === 0;
+    return this.transaction?.type === 0;
   }
 }
