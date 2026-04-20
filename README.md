@@ -95,10 +95,29 @@ To streamline development and testing, the infrastructure layer includes an auto
    git clone [https://github.com/Shipochki/FinancialApplication.git](https://github.com/Shipochki/FinancialApplication.git)
    cd FinancialApplication
 
-2. You need to have Connection string and AzureAd - for them you need to contact me to provide you!
+2. You need to have Connection string and AzureAd - {
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=FinancialApplication;Trusted_Connection=True;TrustServerCertificate=True"
+  },
+  "AzureAd": {
+    "Instance": "https://login.microsoftonline.com/",
+    "TenantId": "b33db19b-a796-4c7d-9549-b574317ff389",
+    "ClientId": "ae84d976-7f16-4602-ac6c-03763dffdc41",
+    "Audience": "api://ae84d976-7f16-4602-ac6c-03763dffdc41"
+  }
+}
    
 ### Frontend Setup
-1. You need to contact me to provide you environment configuration for AzureAd
+1. You need to create a folder with name "environment" in path src/app and to create a file with name "environment.local.ts", then you need to add in the file this configuration:
+    export const environment = {
+    production: false,
+    apiClientId: "ae84d976-7f16-4602-ac6c-03763dffdc41",
+    apiScope: "api://ae84d976-7f16-4602-ac6c-03763dffdc41/access_as_user",
+    apiUrl: "https://localhost:7287/",
+    frontUrl: 'http://localhost:4200',
+    frontClientId: '58d6649d-1da9-4e54-ae09-7baaab4295c0',
+    authority: 'https://login.microsoftonline.com/b33db19b-a796-4c7d-9549-b574317ff389'
+};
 
 ## ✨ Functional Flow
 
